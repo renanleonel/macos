@@ -25,7 +25,7 @@ export function DesktopShell({
     <main
       className={cn(
         `desktop${dark ? ' desktop--dark' : ''}${fullscreen ? ' desktop--fullscreen' : ''}${showingDesktop ? ' desktop--showing-desktop' : ''}${dockAutoHide ? ' desktop--dock-autohide' : ''}`,
-        "[&.desktop]:relative [&.desktop]:w-full [&.desktop]:h-full [&.desktop]:min-w-[320px] [&.desktop]:overflow-hidden [&.desktop]:isolate [&.desktop]:[background:oklch(0.36_0.09_231)_url('/wallpaper-tahoe-day.jpg')_center/cover_no-repeat] [&.desktop]:[user-select:none] [&.desktop]:text-(--label-primary) [&.desktop]:scheme-light",
+        '[&.desktop]:relative [&.desktop]:w-full [&.desktop]:h-full [&.desktop]:min-w-[320px] [&.desktop]:overflow-hidden [&.desktop]:isolate [&.desktop]:[user-select:none] [&.desktop]:text-(--label-primary) [&.desktop]:scheme-light',
         "[&.desktop::before]:[content:''] [&.desktop::before]:absolute [&.desktop::before]:inset-0 [&.desktop::before]:z-[-1] [&.desktop::before]:[background:oklch(0.08_0.03_245/0)] [&.desktop::before]:pointer-events-none [&.desktop::before]:[transition:background_240ms_var(--ease-mac)]",
         '[&.desktop:not(.desktop--showing-desktop)_.app-window]:delay-[0ms]',
         'contrast-more:[&.desktop]:[--separator:oklch(0.25_0.008_250/0.54)] contrast-more:[&.desktop]:[--glass-stroke:oklch(1_0_0/0.72)]',

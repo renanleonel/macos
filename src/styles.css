@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+.desktop {
+  background: oklch(0.36 0.09 231) url('/wallpaper-tahoe-day.jpg') center / cover no-repeat;
+}
+
 @keyframes window-open {
   from {
     opacity: 0;
