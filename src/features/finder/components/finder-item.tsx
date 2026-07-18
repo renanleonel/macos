@@ -37,13 +37,13 @@ export function FinderItem({
         '[&.finder-item_>_span:last-child]:max-w-full [&.finder-item_>_span:last-child]:p-[2px_3px] [&.finder-item_>_span:last-child]:rounded-sm',
         '[&.finder-item:focus_>_span:nth-child(2)]:text-[white] [&.finder-item:focus_>_span:nth-child(2)]:[background:var(--system-blue-deep)]',
         '[&.finder-item.is-selected_>_span:nth-child(2)]:text-[white] [&.finder-item.is-selected_>_span:nth-child(2)]:[background:var(--system-blue-deep)]',
-        '[.finder-files--list_&.finder-item]:w-full [.finder-files--list_&.finder-item]:h-8.5 [.finder-files--list_&.finder-item]:grid [.finder-files--list_&.finder-item]:grid-cols-[28px_minmax(120px,1fr)_minmax(240px,0.85fr)] [.finder-files--list_&.finder-item]:gap-2 [.finder-files--list_&.finder-item]:p-[0_8px] [.finder-files--list_&.finder-item]:rounded-[5px] [.finder-files--list_&.finder-item]:text-left',
+        '[.finder-files--list_&.finder-item]:[--finder-icon-size:20px] [.finder-files--list_&.finder-item]:w-full [.finder-files--list_&.finder-item]:h-8.5 [.finder-files--list_&.finder-item]:grid [.finder-files--list_&.finder-item]:grid-cols-[28px_minmax(120px,1fr)_minmax(240px,0.85fr)] [.finder-files--list_&.finder-item]:gap-2 [.finder-files--list_&.finder-item]:p-[0_8px] [.finder-files--list_&.finder-item]:rounded-[5px] [.finder-files--list_&.finder-item]:text-left',
         '[.finder-files--list_&.finder-item:nth-child(even)]:[background:oklch(0.94_0.005_250/0.62)]',
         '[.finder-files--list_&.finder-item.is-selected]:text-[white] [.finder-files--list_&.finder-item.is-selected]:[background:var(--system-blue-deep)]',
         '[.finder-files--list_&.finder-item.is-selected_.finder-item\\_\\_metadata]:text-[oklch(1_0_0/0.78)]',
         '[.finder-files--list_&.finder-item.is-selected_>_span:nth-child(2)]:[background:transparent]',
         '[.finder-files--list_&.finder-item_>_span:nth-child(2)]:[justify-self:start]',
-        '[.finder-files--columns_&.finder-item]:w-full [.finder-files--columns_&.finder-item]:h-8.5 [.finder-files--columns_&.finder-item]:flex-row [.finder-files--columns_&.finder-item]:gap-1.75 [.finder-files--columns_&.finder-item]:p-[0_10px] [.finder-files--columns_&.finder-item]:rounded-[5px] [.finder-files--columns_&.finder-item]:text-left',
+        '[.finder-files--columns_&.finder-item]:[--finder-icon-size:24px] [.finder-files--columns_&.finder-item]:w-full [.finder-files--columns_&.finder-item]:h-8.5 [.finder-files--columns_&.finder-item]:flex-row [.finder-files--columns_&.finder-item]:gap-1.75 [.finder-files--columns_&.finder-item]:p-[0_10px] [.finder-files--columns_&.finder-item]:rounded-[5px] [.finder-files--columns_&.finder-item]:text-left',
         '[.finder-files--gallery_&.finder-item]:[--finder-icon-size:88px] [.finder-files--gallery_&.finder-item]:flex-[0_0_126px] [.finder-files--gallery_&.finder-item]:w-31.5 [.finder-files--gallery_&.finder-item]:p-3 [.finder-files--gallery_&.finder-item]:rounded-[9px] [.finder-files--gallery_&.finder-item]:[background:oklch(1_0_0/0.72)] [.finder-files--gallery_&.finder-item]:[box-shadow:0_5px_12px_oklch(0.2_0.02_250/0.12)]',
       )}
       aria-pressed={selected}
