@@ -20,6 +20,7 @@ import { FileMenu } from '@/features/desktop/components/file-menu';
 import { ForceQuitDialog } from '@/features/desktop/components/force-quit-dialog';
 import { GoMenu } from '@/features/desktop/components/go-menu';
 import { HelpMenu } from '@/features/desktop/components/help-menu';
+import { KeyboardShortcutsDialog } from '@/features/desktop/components/keyboard-shortcuts-dialog';
 import { Launchpad } from '@/features/desktop/components/launchpad';
 import { LoginScreen } from '@/features/desktop/components/login-screen';
 import { MenuBar } from '@/features/desktop/components/menu-bar';
@@ -52,6 +53,7 @@ import { useNotesState } from '@/features/notes/hooks/use-notes-state';
 import { SettingsSectionId } from '@/features/settings/domain/enums/settings-section-id';
 import { DESKTOP_REVEAL_EDGES } from '@/features/window-manager/domain/constants/desktop-reveal-edges';
 import { DesktopRevealEdge } from '@/features/window-manager/domain/enums/desktop-reveal-edge';
+import { WindowLayout } from '@/features/window-manager/domain/enums/window-layout';
 import {
   selectActiveWindow,
   selectFullscreenWindow,
@@ -64,8 +66,14 @@ import type { DockId } from '@/shared/domain/models/dock-id';
 
 export function DesktopCompositionContainer() {
   const windows = useWindowState();
-  const { openWindow, closeWindow, focusWindow, minimizeWindow, toggleMaximizeWindow } =
-    useWindowActions();
+  const {
+    openWindow,
+    closeWindow,
+    focusWindow,
+    arrangeWindow,
+    minimizeWindow,
+    toggleMaximizeWindow,
+  } = useWindowActions();
   const { dark, accentColor, lowPower, systemPreferences, brightness } =
     useDesktopAppearanceState();
   const { setDark, setLowPower, updateSystemPreferences, setBrightness } =
@@ -102,6 +110,10 @@ export function DesktopCompositionContainer() {
     setSettingsSection(section);
     openApp(AppId.SETTINGS);
   };
+  const openFinderSection = (section: FinderSection) => {
+    setFinderSection(section);
+    openApp(AppId.FINDER);
+  };
   const launch = (app: DockId) => {
     setShowDesktop(false);
     if (app === DockUtilityId.LAUNCHPAD) {
@@ -128,6 +140,11 @@ export function DesktopCompositionContainer() {
   const focusActiveWindow = () => {
     setShowDesktop(false);
     if (activeWindow) focusWindow(activeWindow.id);
+    setOverlay(null);
+  };
+  const arrangeActiveWindow = (layout: WindowLayout) => {
+    setShowDesktop(false);
+    if (activeWindow) arrangeWindow(activeWindow.id, layout);
     setOverlay(null);
   };
   const openNote = (noteId: NoteId) => {
@@ -248,25 +265,40 @@ export function DesktopCompositionContainer() {
             />
           ) : null}
           {overlay === OverlayId.FILE ? <FileMenu openApp={openApp} /> : null}
-          {overlay === OverlayId.EDIT ? <EditMenu close={closeOverlay} /> : null}
+          {overlay === OverlayId.EDIT ? <EditMenu /> : null}
           {overlay === OverlayId.VIEW ? (
             <ViewMenu
               preferences={finderPreferences}
               updatePreferences={updateFinderPreferences}
+              finderCommandsEnabled={activeApp === AppId.FINDER}
+              maximized={Boolean(activeWindow?.maximized)}
               maximize={maximizeActiveWindow}
               close={closeOverlay}
             />
           ) : null}
-          {overlay === OverlayId.GO ? <GoMenu openApp={openApp} close={closeOverlay} /> : null}
+          {overlay === OverlayId.GO ? (
+            <GoMenu openFinderSection={openFinderSection} />
+          ) : null}
           {overlay === OverlayId.WINDOW ? (
             <WindowMenu
               window={activeWindow}
               minimize={minimizeActiveWindow}
               maximize={maximizeActiveWindow}
+              center={() => arrangeActiveWindow(WindowLayout.CENTER)}
+              moveToLeftHalf={() => arrangeActiveWindow(WindowLayout.LEFT_HALF)}
+              moveToRightHalf={() => arrangeActiveWindow(WindowLayout.RIGHT_HALF)}
               bringToFront={focusActiveWindow}
             />
           ) : null}
-          {overlay === OverlayId.HELP ? <HelpMenu openApp={openApp} close={closeOverlay} /> : null}
+          {overlay === OverlayId.HELP ? (
+            <HelpMenu
+              openApp={openApp}
+              openShortcuts={() => {
+                setOverlay(null);
+                setSystemDialog(SystemDialogId.KEYBOARD_SHORTCUTS);
+              }}
+            />
+          ) : null}
           {overlay === OverlayId.WIFI ? <WifiMenu openSettings={openSettings} /> : null}
           {overlay === OverlayId.BATTERY ? (
             <BatteryMenu
@@ -303,6 +335,9 @@ export function DesktopCompositionContainer() {
               onQuit={closeWindow}
               onClose={() => setSystemDialog(null)}
             />
+          ) : null}
+          {systemDialog === SystemDialogId.KEYBOARD_SHORTCUTS ? (
+            <KeyboardShortcutsDialog onClose={() => setSystemDialog(null)} />
           ) : null}
           <DockHotzone />
           <Dock

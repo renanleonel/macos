@@ -6,10 +6,21 @@ type WindowMenuProps = {
   window?: WindowState;
   minimize: () => void;
   maximize: () => void;
+  center: () => void;
+  moveToLeftHalf: () => void;
+  moveToRightHalf: () => void;
   bringToFront: () => void;
 };
 
-export function WindowMenu({ window, minimize, maximize, bringToFront }: WindowMenuProps) {
+export function WindowMenu({
+  window,
+  minimize,
+  maximize,
+  center,
+  moveToLeftHalf,
+  moveToRightHalf,
+  bringToFront,
+}: WindowMenuProps) {
   return (
     <SystemMenu className='window-menu [&.window-menu]:left-77.5 [&.window-menu]:w-66.25'>
       <MenuCommand shortcut='⌘M' disabled={!window} onClick={minimize}>
@@ -18,15 +29,20 @@ export function WindowMenu({ window, minimize, maximize, bringToFront }: WindowM
       <MenuCommand disabled={!window} onClick={maximize}>
         Zoom
       </MenuCommand>
-      <MenuCommand disabled={!window} onClick={maximize}>
+      <MenuCommand disabled={!window || window.maximized} onClick={maximize}>
         Fill
       </MenuCommand>
-      <MenuCommand disabled>Center</MenuCommand>
-      <MenuCommand>
-        Move & Resize <span>›</span>
+      <MenuCommand disabled={!window} onClick={center}>
+        Center
+      </MenuCommand>
+      <MenuCommand disabled={!window} onClick={moveToLeftHalf}>
+        Move to Left Half
+      </MenuCommand>
+      <MenuCommand disabled={!window} onClick={moveToRightHalf}>
+        Move to Right Half
       </MenuCommand>
       <hr />
-      <MenuCommand disabled={!window} onClick={bringToFront}>
+      <MenuCommand disabled>
         Bring All to Front
       </MenuCommand>
       <hr />

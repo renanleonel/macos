@@ -1,37 +1,63 @@
 import { MenuCommand } from '@/features/desktop/components/menu-command';
 import { SystemMenu } from '@/features/desktop/components/system-menu';
-import { AppId } from '@/shared/domain/enums/app-id';
-type GoMenuProps = { openApp: (app: AppId) => void; close: () => void };
-export function GoMenu({ openApp, close }: GoMenuProps) {
+import { FinderSection } from '@/features/finder/domain/enums/finder-section';
+
+type GoMenuProps = { openFinderSection: (section: FinderSection) => void };
+
+export function GoMenu({ openFinderSection }: GoMenuProps) {
   return (
     <SystemMenu className='go-menu [&.go-menu]:left-54.5'>
-      <MenuCommand shortcut='⌘[' onClick={close}>
+      <MenuCommand shortcut='⌘[' disabled>
         Back
       </MenuCommand>
       <MenuCommand shortcut='⌘]' disabled>
         Forward
       </MenuCommand>
-      <MenuCommand onClick={close}>
+      <MenuCommand disabled>
         Enclosing Folder <span>›</span>
       </MenuCommand>
       <hr />
-      <MenuCommand shortcut='⇧⌘F' onClick={() => openApp(AppId.FINDER)}>
+      <MenuCommand
+        shortcut='⇧⌘F'
+        onClick={() => openFinderSection(FinderSection.RECENTS)}
+      >
         Recents
       </MenuCommand>
-      <MenuCommand shortcut='⇧⌘O' onClick={() => openApp(AppId.ABOUT)}>
+      <MenuCommand
+        shortcut='⇧⌘O'
+        onClick={() => openFinderSection(FinderSection.ABOUT_ME)}
+      >
         About Me
       </MenuCommand>
-      <MenuCommand shortcut='⇧⌘D' onClick={() => openApp(AppId.FINDER)}>
+      <MenuCommand
+        shortcut='⇧⌘A'
+        onClick={() => openFinderSection(FinderSection.APPLICATIONS)}
+      >
+        Applications
+      </MenuCommand>
+      <MenuCommand
+        shortcut='⇧⌘D'
+        onClick={() => openFinderSection(FinderSection.DESKTOP)}
+      >
         Desktop
       </MenuCommand>
-      <MenuCommand shortcut='⇧⌘P' onClick={() => openApp(AppId.FINDER)}>
+      <MenuCommand
+        shortcut='⇧⌘P'
+        onClick={() => openFinderSection(FinderSection.PORTFOLIO)}
+      >
         Portfolio
       </MenuCommand>
-      <MenuCommand shortcut='⌥⌘L' onClick={() => openApp(AppId.PHOTOS)}>
+      <MenuCommand
+        shortcut='⌥⌘L'
+        onClick={() => openFinderSection(FinderSection.DOWNLOADS)}
+      >
         Downloads
       </MenuCommand>
+      <MenuCommand onClick={() => openFinderSection(FinderSection.ICLOUD_DRIVE)}>
+        iCloud Drive
+      </MenuCommand>
       <hr />
-      <MenuCommand shortcut='⇧⌘G' onClick={close}>
+      <MenuCommand shortcut='⇧⌘G' disabled>
         Go to Folder…
       </MenuCommand>
     </SystemMenu>

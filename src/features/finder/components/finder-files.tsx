@@ -16,6 +16,7 @@ type FinderFilesProps = {
   items: FinderEntry[];
   selectedItem: string | null;
   onSelectItem: (name: string) => void;
+  onClearSelection: () => void;
   onOpenApp: (app: AppId) => void;
 };
 
@@ -27,6 +28,7 @@ export function FinderFiles({
   items,
   selectedItem,
   onSelectItem,
+  onClearSelection,
   onOpenApp,
 }: FinderFilesProps) {
   return (
@@ -42,6 +44,9 @@ export function FinderFiles({
       style={{ '--finder-icon-size': `${iconSize}px` } as CSSProperties}
       aria-label={`${section} files`}
       aria-live='polite'
+      onPointerDown={(event) => {
+        if (event.target === event.currentTarget) onClearSelection();
+      }}
     >
       {items.map((item) => (
         <FinderItem
@@ -49,6 +54,7 @@ export function FinderFiles({
           item={item}
           size={iconSize}
           selected={selectedItem === item.name}
+          showMetadata={view === FinderView.LIST}
           onSelect={() => onSelectItem(item.name)}
           onOpen={() => onOpenApp(item.app)}
         />

@@ -3,6 +3,7 @@ export enum WindowActionType {
   CLOSE = 'close',
   FOCUS = 'focus',
   MOVE = 'move',
+  ARRANGE = 'arrange',
   MINIMIZE = 'minimize',
   TOGGLE_MAXIMIZE = 'toggleMaximize',
 }

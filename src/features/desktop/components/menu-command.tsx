@@ -22,11 +22,12 @@ export function MenuCommand({
       <span
         className={cn(
           'menu-command__label',
-          '[&.menu-command\\_\\_label]:min-w-0 [&.menu-command\\_\\_label]:flex [&.menu-command\\_\\_label]:items-center [&.menu-command\\_\\_label]:gap-1',
-          '[&.menu-command\\_\\_label_>_i]:w-3.5 [&.menu-command\\_\\_label_>_i]:h-3.5 [&.menu-command\\_\\_label_>_i]:grid [&.menu-command\\_\\_label_>_i]:place-items-center [&.menu-command\\_\\_label_>_i]:-ml-0.75',
+          'min-w-0 flex items-center gap-1 whitespace-nowrap',
         )}
       >
-        <i>{checked ? <Check size={12} strokeWidth={2.5} /> : null}</i>
+        <i className='w-3.5 h-3.5 grid place-items-center -ml-0.75 flex-none'>
+          {checked ? <Check size={12} strokeWidth={2.5} /> : null}
+        </i>
         {children}
       </span>
       {shortcut ? <kbd>{shortcut}</kbd> : null}

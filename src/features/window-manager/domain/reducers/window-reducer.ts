@@ -1,4 +1,5 @@
 import { WindowActionType } from '@/features/window-manager/domain/enums/window-action-type';
+import { calculateWindowLayout } from '@/features/window-manager/domain/calculate-window-layout';
 import { clampWindowPosition } from '@/features/window-manager/domain/clamp-window-position';
 import type { WindowAction } from '@/features/window-manager/domain/models/window-action';
 import type { WindowState } from '@/features/window-manager/domain/models/window-state';
@@ -40,6 +41,16 @@ export function windowReducer(state: WindowState[], action: WindowAction): Windo
     case WindowActionType.MOVE: {
       const position = clampWindowPosition(action.x, action.y, action.viewport);
       return state.map((window) => (window.id === action.id ? { ...window, ...position } : window));
+    }
+    case WindowActionType.ARRANGE: {
+      const target = state.find((window) => window.id === action.id);
+      if (!target) return state;
+      const bounds = calculateWindowLayout(target, action.layout, action.viewport);
+      return state.map((window) =>
+        window.id === action.id
+          ? { ...window, ...bounds, maximized: false, minimized: false, z: nextZ }
+          : window,
+      );
     }
     case WindowActionType.MINIMIZE:
       return state.map((window) =>

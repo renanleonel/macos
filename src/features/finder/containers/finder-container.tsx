@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { copyPortfolioLink } from '@/features/finder/adapters/portfolio-link-clipboard';
 import { FinderFiles } from '@/features/finder/components/finder-files';
@@ -32,6 +32,19 @@ export function FinderContainer({ openApp }: FinderContainerProps) {
     return sectionItems.filter((item) => item.name.toLocaleLowerCase().includes(normalized));
   })();
   const canResizeIcons = preferences.view === FinderView.ICONS;
+
+  useEffect(() => {
+    if (!toolbarMenu) return;
+    const closeToolbarMenuOnOutsidePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Element && !target.closest('.finder-toolbar-popover')) {
+        setToolbarMenu(null);
+      }
+    };
+    document.addEventListener('pointerdown', closeToolbarMenuOnOutsidePointerDown, true);
+    return () =>
+      document.removeEventListener('pointerdown', closeToolbarMenuOnOutsidePointerDown, true);
+  }, [toolbarMenu]);
 
   const selectSection = (nextSection: FinderSection) => {
     setSection(nextSection);
@@ -85,6 +98,7 @@ export function FinderContainer({ openApp }: FinderContainerProps) {
             items={filteredItems}
             selectedItem={selectedItem}
             onSelectItem={setSelectedItem}
+            onClearSelection={() => setSelectedItem(null)}
             onOpenApp={openApp}
           />
           {preferences.showPreview ? <FinderPreview /> : null}

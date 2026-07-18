@@ -1,9 +1,8 @@
-import { NoteId } from '@/features/notes/domain/enums/note-id';
 import { cn } from '@/shared/utils/cn';
 
-type CalendarWidgetProps = { now: Date; onOpenNote: (noteId: NoteId) => void };
+type CalendarWidgetProps = { now: Date };
 
-export function CalendarWidget({ now, onOpenNote }: CalendarWidgetProps) {
+export function CalendarWidget({ now }: CalendarWidgetProps) {
   const month = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   const start = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
   const days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -48,22 +47,18 @@ export function CalendarWidget({ now, onOpenNote }: CalendarWidgetProps) {
             </span>
           ))}
         </div>
-        <button
-          type='button'
+        <div
           className={cn(
             'calendar-event',
-            '[&.calendar-event]:self-center [&.calendar-event]:min-w-0 [&.calendar-event]:p-[4px_0_4px_8px] [&.calendar-event]:[border:0] [&.calendar-event]:[border-left:0] [&.calendar-event]:flex [&.calendar-event]:flex-col [&.calendar-event]:overflow-hidden [&.calendar-event]:text-inherit [&.calendar-event]:[background:transparent] [&.calendar-event]:text-left [&.calendar-event]:cursor-default [&.calendar-event]:[transition:scale_120ms_ease-out] [&.calendar-event]:relative [&.calendar-event]:pl-3.25',
+            '[&.calendar-event]:self-center [&.calendar-event]:min-w-0 [&.calendar-event]:p-[4px_0_4px_8px] [&.calendar-event]:flex [&.calendar-event]:flex-col [&.calendar-event]:overflow-hidden [&.calendar-event]:text-inherit [&.calendar-event]:text-left [&.calendar-event]:cursor-default [&.calendar-event]:relative [&.calendar-event]:pl-3.25',
             '[&.calendar-event_span]:overflow-hidden [&.calendar-event_span]:whitespace-nowrap [&.calendar-event_span]:text-ellipsis',
             '[&.calendar-event_small]:text-[oklch(0.5_0.01_250)]',
-            '[&.calendar-event:active]:scale-[0.98]',
             "[&.calendar-event::before]:[content:''] [&.calendar-event::before]:absolute [&.calendar-event::before]:left-px [&.calendar-event::before]:top-1.25 [&.calendar-event::before]:w-1.5 [&.calendar-event::before]:h-1.5 [&.calendar-event::before]:rounded-[50%] [&.calendar-event::before]:[background:var(--system-blue)] [&.calendar-event::before]:[box-shadow:0_0_0_3px_oklch(0.67_0.17_245/0.14)]",
           )}
-          onClick={() => onOpenNote(NoteId.NOW)}
-          aria-label="Open today's plan in Notes"
         >
           <span>Design review — Portfolio</span>
           <small>10:00 AM · Notes</small>
-        </button>
+        </div>
       </div>
     </section>
   );

@@ -1,10 +1,17 @@
 import { Search } from 'lucide-react';
+import { useState } from 'react';
 import { MenuCommand } from '@/features/desktop/components/menu-command';
 import { SystemMenu } from '@/features/desktop/components/system-menu';
 import { AppId } from '@/shared/domain/enums/app-id';
 import { cn } from '@/shared/utils/cn';
-type HelpMenuProps = { openApp: (app: AppId) => void; close: () => void };
-export function HelpMenu({ openApp, close }: HelpMenuProps) {
+type HelpMenuProps = { openApp: (app: AppId) => void; openShortcuts: () => void };
+
+export function HelpMenu({ openApp, openShortcuts }: HelpMenuProps) {
+  const [query, setQuery] = useState('');
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const matches = (label: string) => label.toLocaleLowerCase().includes(normalizedQuery);
+  const hasResults = ['macOS Help', 'About This Portfolio', 'Keyboard Shortcuts'].some(matches);
+
   return (
     <SystemMenu className='help-menu [&.help-menu]:left-97 [&.help-menu]:w-70'>
       <label
@@ -15,12 +22,28 @@ export function HelpMenu({ openApp, close }: HelpMenuProps) {
         )}
       >
         <Search size={13} />
-        <input aria-label='Search Help' placeholder='Search' />
+        <input
+          aria-label='Search Help'
+          placeholder='Search'
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
       </label>
       <hr />
-      <MenuCommand onClick={() => openApp(AppId.NOTES)}>macOS Help</MenuCommand>
-      <MenuCommand onClick={() => openApp(AppId.ABOUT)}>About This Portfolio</MenuCommand>
-      <MenuCommand onClick={close}>Keyboard Shortcuts</MenuCommand>
+      {matches('macOS Help') ? (
+        <MenuCommand onClick={() => openApp(AppId.NOTES)}>macOS Help</MenuCommand>
+      ) : null}
+      {matches('About This Portfolio') ? (
+        <MenuCommand onClick={() => openApp(AppId.ABOUT)}>About This Portfolio</MenuCommand>
+      ) : null}
+      {matches('Keyboard Shortcuts') ? (
+        <MenuCommand onClick={openShortcuts}>Keyboard Shortcuts</MenuCommand>
+      ) : null}
+      {!hasResults ? (
+        <p className='m-0 p-3 text-center text-[12px] text-(--label-secondary)'>
+          No help topics found.
+        </p>
+      ) : null}
     </SystemMenu>
   );
 }

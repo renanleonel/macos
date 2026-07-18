@@ -11,6 +11,7 @@ import {
 } from '@/features/window-manager/adapters/browser-window';
 import { INITIAL_WINDOW } from '@/features/window-manager/domain/constants/initial-window';
 import { WindowActionType } from '@/features/window-manager/domain/enums/window-action-type';
+import type { WindowLayout } from '@/features/window-manager/domain/enums/window-layout';
 import { windowReducer } from '@/features/window-manager/domain/reducers/window-reducer';
 import type { AppId } from '@/shared/domain/enums/app-id';
 
@@ -33,6 +34,9 @@ export function WindowManagerProvider({ children }: WindowManagerProviderProps) 
   const moveWindow = (id: number, x: number, y: number) => {
     dispatch({ type: WindowActionType.MOVE, id, x, y, viewport: readViewportSize() });
   };
+  const arrangeWindow = (id: number, layout: WindowLayout) => {
+    dispatch({ type: WindowActionType.ARRANGE, id, layout, viewport: readViewportSize() });
+  };
   const minimizeWindow = (id: number) => {
     dispatch({ type: WindowActionType.MINIMIZE, id });
   };
@@ -45,6 +49,7 @@ export function WindowManagerProvider({ children }: WindowManagerProviderProps) 
     closeWindow,
     focusWindow,
     moveWindow,
+    arrangeWindow,
     minimizeWindow,
     toggleMaximizeWindow,
   };

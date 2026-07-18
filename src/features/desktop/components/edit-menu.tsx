@@ -1,7 +1,6 @@
 import { MenuCommand } from '@/features/desktop/components/menu-command';
 import { SystemMenu } from '@/features/desktop/components/system-menu';
-type EditMenuProps = { close: () => void };
-export function EditMenu({ close }: EditMenuProps) {
+export function EditMenu() {
   return (
     <SystemMenu className='edit-menu [&.edit-menu]:left-65.25'>
       <MenuCommand shortcut='⌘Z' disabled>
@@ -11,23 +10,23 @@ export function EditMenu({ close }: EditMenuProps) {
         Redo
       </MenuCommand>
       <hr />
-      <MenuCommand shortcut='⌘X' onClick={close}>
+      <MenuCommand shortcut='⌘X' disabled>
         Cut
       </MenuCommand>
-      <MenuCommand shortcut='⌘C' onClick={close}>
+      <MenuCommand shortcut='⌘C' disabled>
         Copy
       </MenuCommand>
-      <MenuCommand shortcut='⌘V' onClick={close}>
+      <MenuCommand shortcut='⌘V' disabled>
         Paste
       </MenuCommand>
-      <MenuCommand shortcut='⌘A' onClick={close}>
+      <MenuCommand shortcut='⌘A' disabled>
         Select All
       </MenuCommand>
       <hr />
-      <MenuCommand onClick={close}>
+      <MenuCommand disabled>
         Start Dictation… <span>🎙</span>
       </MenuCommand>
-      <MenuCommand onClick={close}>
+      <MenuCommand disabled>
         Emoji & Symbols <span>›</span>
       </MenuCommand>
     </SystemMenu>

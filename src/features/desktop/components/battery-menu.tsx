@@ -9,18 +9,17 @@ type BatteryMenuProps = {
 };
 export function BatteryMenu({ openSettings, lowPower, setLowPower }: BatteryMenuProps) {
   return (
-    <SystemMenu className='status-menu battery-menu [&.status-menu]:w-65 [&.battery-menu]:right-54.5'>
+    <SystemMenu className='status-menu battery-menu w-65! [&.battery-menu]:right-54.5'>
       <div
         className={cn(
           `battery-summary${lowPower ? ' is-low-power' : ''}`,
-          '[&.battery-summary_small]:text-[oklch(0.49_0.01_250)] [&.battery-summary_small]:text-[11px] [&.battery-summary_small]:font-normal',
-          '[&.battery-summary]:min-h-13 [&.battery-summary]:flex [&.battery-summary]:items-center [&.battery-summary]:gap-2.75 [&.battery-summary]:p-[4px_8px]',
-          '[&.battery-summary_>_span]:flex [&.battery-summary_>_span]:flex-col',
+          'min-h-13 flex items-center gap-2.75 p-[4px_8px]',
+          '[&_small]:text-[oklch(0.49_0.01_250)] [&_small]:text-[11px] [&_small]:font-normal',
           '[&.battery-summary.is-low-power_>_svg]:text-(--low-power-yellow) [&.battery-summary.is-low-power_>_svg]:filter-[drop-shadow(0_0_4px_oklch(0.82_0.17_85/0.28))]',
         )}
       >
         <BatteryCharging size={32} />
-        <span>
+        <span className='flex flex-col'>
           <strong>Battery</strong>
           <small>{lowPower ? '84% · Low Power Mode' : '84% · Power Adapter'}</small>
         </span>
@@ -29,29 +28,30 @@ export function BatteryMenu({ openSettings, lowPower, setLowPower }: BatteryMenu
       <div
         className={cn(
           'status-menu__heading',
-          '[&.status-menu\\_\\_heading]:min-h-10 [&.status-menu\\_\\_heading]:flex [&.status-menu\\_\\_heading]:items-center [&.status-menu\\_\\_heading]:justify-between [&.status-menu\\_\\_heading]:p-[4px_8px]',
-          '[&.status-menu\\_\\_heading_>_span]:flex [&.status-menu\\_\\_heading_>_span]:flex-col',
-          '[&.status-menu\\_\\_heading_small]:text-[oklch(0.49_0.01_250)] [&.status-menu\\_\\_heading_small]:text-[11px] [&.status-menu\\_\\_heading_small]:font-normal',
+          'min-h-10 flex items-center justify-between gap-3 p-[4px_8px]',
+          '[&_small]:text-[oklch(0.49_0.01_250)] [&_small]:text-[11px] [&_small]:font-normal',
         )}
       >
-        <span>
+        <span className='min-w-0 flex flex-col'>
           <strong>Low Power Mode</strong>
           <small>Reduces energy use</small>
         </span>
         <button
           type='button'
           className={cn(
-            `mac-switch${lowPower ? ' is-on' : ''}`,
-            '[&.mac-switch]:relative [&.mac-switch]:w-9.5! [&.mac-switch]:min-h-5.5! [&.mac-switch]:flex-[0_0_38px] [&.mac-switch]:p-0! [&.mac-switch]:rounded-[999px]! [&.mac-switch]:[background:oklch(0.76_0.01_250)]! [&.mac-switch]:[transition:background-color_150ms_ease-out]',
-            '[&.mac-switch_i]:absolute [&.mac-switch_i]:top-0.5 [&.mac-switch_i]:left-0.5 [&.mac-switch_i]:w-4.5 [&.mac-switch_i]:h-4.5 [&.mac-switch_i]:rounded-[50%] [&.mac-switch_i]:[background:white] [&.mac-switch_i]:[box-shadow:0_1px_3px_oklch(0.2_0.01_250/0.3)] [&.mac-switch_i]:[transition:transform_170ms_var(--ease-mac)]',
-            '[&.mac-switch.is-on]:[background:var(--system-blue-deep)]!',
-            '[&.mac-switch.is-on_i]:transform-[translateX(16px)]',
+            'mac-switch relative w-9.5 min-h-5.5 flex-[0_0_38px] p-0 rounded-[999px] [background:oklch(0.76_0.01_250)] [transition:background-color_150ms_ease-out]',
+            lowPower ? '[background:var(--system-blue-deep)]' : '',
           )}
           aria-label='Toggle Low Power Mode'
           aria-pressed={lowPower}
           onClick={() => setLowPower(!lowPower)}
         >
-          <i />
+          <i
+            className={cn(
+              'absolute top-0.5 left-0.5 w-4.5 h-4.5 rounded-[50%] [background:white] [box-shadow:0_1px_3px_oklch(0.2_0.01_250/0.3)] [transition:transform_170ms_var(--ease-mac)]',
+              lowPower ? 'translate-x-4' : '',
+            )}
+          />
         </button>
       </div>
       <hr />

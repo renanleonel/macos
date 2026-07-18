@@ -7,7 +7,7 @@ const notificationClass =
 export function NotificationCenter({ doNotDisturb }: NotificationCenterProps) {
   const now = useClock();
   return (
-    <aside className='notification-center [&.notification-center]:fixed [&.notification-center]:z-800 [&.notification-center]:rounded-[11px] [&.notification-center]:[background:transparent] [&.notification-center]:[backdrop-filter:none] [&.notification-center]:[box-shadow:none] [&.notification-center]:top-8.25 [&.notification-center]:right-3 [&.notification-center]:w-85 [&.notification-center]:p-3'>
+    <aside className='notification-center [&.notification-center]:fixed [&.notification-center]:z-800 [&.notification-center]:rounded-[20px] [&.notification-center]:[background:linear-gradient(145deg,oklch(1_0_0/0.22),transparent_48%),var(--glass-clear)] [&.notification-center]:[backdrop-filter:blur(46px)_saturate(1.5)] [&.notification-center]:[-webkit-backdrop-filter:blur(46px)_saturate(1.5)] [&.notification-center]:[box-shadow:inset_0_0_0_1px_var(--glass-stroke),inset_0_1px_var(--glass-highlight),0_18px_44px_oklch(0.08_0.035_245/0.24)] [&.notification-center]:top-8.25 [&.notification-center]:right-3 [&.notification-center]:w-85 [&.notification-center]:p-3 [@media(prefers-reduced-transparency:_reduce)]:[&.notification-center]:[backdrop-filter:none] [@media(prefers-reduced-transparency:_reduce)]:[&.notification-center]:[-webkit-backdrop-filter:none] [@media(prefers-reduced-transparency:_reduce)]:[&.notification-center]:[background:var(--material-popover)]'>
       <div
         className={cn(
           'notification-date',

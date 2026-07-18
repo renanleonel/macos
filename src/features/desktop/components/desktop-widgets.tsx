@@ -25,7 +25,7 @@ export function DesktopWidgets(props: DesktopWidgetsProps) {
       className='widgets [&.widgets]:absolute [&.widgets]:z-1 [&.widgets]:top-9 [&.widgets]:left-3 [&.widgets]:w-86 [&.widgets]:grid [&.widgets]:grid-cols-[1fr_1fr] [&.widgets]:gap-3 [&.widgets]:pointer-events-none max-[900px]:[&.widgets]:hidden'
       aria-label='Desktop widgets'
     >
-      <CalendarWidget now={now} onOpenNote={props.onOpenNote} />
+      <CalendarWidget now={now} />
       <WeatherWidget />
       <TodayWidget
         completedTasks={props.completedTasks}
