@@ -1,0 +1,16 @@
+export enum OverlayId {
+  APPLE = 'apple',
+  FILE = 'file',
+  EDIT = 'edit',
+  VIEW = 'view',
+  GO = 'go',
+  WINDOW = 'window',
+  HELP = 'help',
+  WIFI = 'wifi',
+  BATTERY = 'battery',
+  SIRI = 'siri',
+  CONTROL = 'control',
+  NOTIFICATIONS = 'notifications',
+  SPOTLIGHT = 'spotlight',
+  LAUNCHPAD = 'launchpad',
+}

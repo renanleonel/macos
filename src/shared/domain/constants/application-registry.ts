@@ -1,0 +1,71 @@
+import { AppId } from '@/shared/domain/enums/app-id';
+import type { ApplicationMetadata } from '@/shared/domain/models/application-metadata';
+
+export const APPLICATION_REGISTRY: Record<AppId, ApplicationMetadata> = {
+  [AppId.FINDER]: {
+    label: 'Finder',
+    title: 'Portfolio',
+    width: 980,
+    height: 620,
+    x: 210,
+    y: 116,
+  },
+  [AppId.SAFARI]: {
+    label: 'Safari',
+    title: 'Safari',
+    width: 1020,
+    height: 650,
+    x: 250,
+    y: 84,
+  },
+  [AppId.MESSAGES]: {
+    label: 'Messages',
+    title: 'Messages',
+    width: 760,
+    height: 560,
+    x: 360,
+    y: 140,
+  },
+  [AppId.PHOTOS]: {
+    label: 'Photos',
+    title: 'Photos',
+    width: 900,
+    height: 610,
+    x: 290,
+    y: 102,
+  },
+  [AppId.NOTES]: {
+    label: 'Notes',
+    title: 'Notes',
+    width: 820,
+    height: 580,
+    x: 330,
+    y: 122,
+  },
+  [AppId.TERMINAL]: {
+    label: 'Terminal',
+    title: 'renan — zsh',
+    width: 760,
+    height: 500,
+    x: 390,
+    y: 160,
+  },
+  [AppId.SETTINGS]: {
+    label: 'Settings',
+    dockLabel: 'System Settings',
+    title: 'System Settings',
+    width: 880,
+    height: 610,
+    x: 310,
+    y: 105,
+  },
+  [AppId.ABOUT]: {
+    label: 'About Me',
+    menuBarLabel: 'Finder',
+    title: 'About This Mac',
+    width: 510,
+    height: 480,
+    x: 500,
+    y: 170,
+  },
+};
