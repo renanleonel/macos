@@ -179,7 +179,7 @@ Adding or removing an application requires reviewing every row, then updating th
 
 - Portfolio projects, biography, contact information, and social links include placeholder values.
 - There is no backend, authentication, real messaging, file system, shell execution, or photo library.
-- Weather from Open-Meteo is the only network-backed runtime feature.
+- Weather from Open-Meteo is the only feature-owned network request; Vercel Web Analytics separately reports production page views and visitor metrics at the application entry point.
 - Many controls intentionally simulate macOS visual state without changing an underlying platform capability.
 - The window manager supports one instance per application.
 

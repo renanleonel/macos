@@ -97,6 +97,7 @@ Browser and external APIs are concentrated in adapters or in a scoped hook/conta
 | Boot timer | `desktop/adapters/boot-timer.ts` | Schedules/cancels the two-second boot completion. |
 | Keyboard events | `desktop/adapters/desktop-keyboard.ts` | Subscribes to document keydown for desktop shortcuts. |
 | Weather request | `desktop/adapters/maringa-weather.ts` | Fetches current conditions from Open-Meteo for Maringa. |
+| Production analytics | `src/main.tsx` via `@vercel/analytics/react` | Loads Vercel's deployment analytics script and reports page-view and visitor metadata when enabled for the project. |
 | Terminal focus | `terminal/adapters/schedule-input-focus.ts` | Schedules input focus on the next animation frame. |
 | Finder outside-pointer dismissal | `finder/containers/finder-container.tsx` | Installs a toolbar-scoped document listener inside an effect and removes it during cleanup. |
 
@@ -106,7 +107,11 @@ Hooks and containers own lifecycle cleanup around these capabilities. Domain cod
 
 `useMaringaWeather` starts with `DEFAULT_WEATHER`, requests current conditions immediately, and refreshes every 15 minutes. The request uses an `AbortController`; unmount aborts the request and clears the interval.
 
-Invalid responses, non-success status codes, offline errors, and non-abort exceptions leave the last known or default weather visible. Weather is not stored and is the application's only runtime network request.
+Invalid responses, non-success status codes, offline errors, and non-abort exceptions leave the last known or default weather visible. Weather is not stored and is the only feature-owned runtime network request.
+
+## Analytics behavior
+
+The root entry point mounts Vercel Web Analytics once, outside the feature and provider trees. Production page views and visitor metrics are reported only after Analytics is enabled for the Vercel project and the application is redeployed. The application has no analytics API key or local persistence contract; failure or blocking of the analytics request does not affect the portfolio interface.
 
 ## Keyboard and dismissal behavior
 

@@ -39,6 +39,7 @@ The detailed behavior and source-of-truth files for each application are documen
 - Vite 8
 - Tailwind CSS 4 through the Vite plugin
 - React Compiler through the Vite React compiler preset
+- Vercel Web Analytics for production visitor and page-view metrics
 - Lucide React icons plus small custom glyph components
 - pnpm 10.28.2
 - ESLint 9 with TypeScript, React Hooks, and React Refresh rules
@@ -97,7 +98,7 @@ src/features  desktop, window manager, and simulated applications
 src/shared    stable primitives used by more than one feature
 ```
 
-`src/app` is the only layer that composes feature UIs. Each feature groups the roles it actually needs: `components`, `containers`, `contexts`, `hooks`, `adapters`, `domain`, and `utils`. Shared application identity and initial window metadata live in `src/shared/domain/constants/application-registry.ts`.
+`src/app` is the only layer that composes feature UIs. Each feature groups the roles it actually needs: `components`, `containers`, `contexts`, `hooks`, `adapters`, `domain`, and `utils`. Shared application identity and initial window metadata live in `src/shared/domain/constants/application-registry.ts`. Vercel Web Analytics is mounted once at the application entry point in `src/main.tsx`, outside the feature graph.
 
 Finder is eagerly imported because it is the initial window. Safari, Messages, Photos, Notes, Terminal, Settings, and About are loaded through `React.lazy` and rendered under `Suspense` when requested.
 
@@ -162,8 +163,8 @@ The documentation is modular so humans and agents can load only the context they
 
 - Portfolio projects, biography, email addresses, and social URLs still include placeholders.
 - Messages, Photos, Terminal, and most Settings panels are local simulations, not integrations with real services.
-- Open-Meteo weather is the only runtime network request.
-- The app has no backend, accounts, analytics, or server persistence.
+- Open-Meteo supplies live weather, and Vercel Web Analytics reports production page views and visitor metrics when Analytics is enabled for the deployment.
+- The app has no backend, accounts, or server-side application persistence.
 - The current automated gate covers linting, type-checking, and production bundling; browser behavior remains a manual check.
 
 These boundaries are deliberate and should be preserved during architecture-only work. Product changes should update both the implementation and the relevant documentation.

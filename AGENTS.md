@@ -27,6 +27,7 @@ Start at [`docs/README.md`](docs/README.md) when a task spans several areas.
 - Keep domain modules deterministic and free of React and browser globals. Put reusable browser capabilities behind adapters, and keep scoped browser lifecycle work in hooks or containers with explicit cleanup.
 - Preserve application IDs, serialized enum values, local-storage keys, fallback behavior, Tailwind/CSS semantics, accessibility behavior, animations, and known quirks during structural work.
 - Finder is in the initial bundle. Other application content is lazy-loaded in `src/app/containers/app-content-container.tsx`; preserve that boundary unless the task explicitly changes loading behavior.
+- Vercel Web Analytics is mounted once in `src/main.tsx`; keep deployment telemetry outside feature modules and preserve it when changing root composition.
 - React Compiler is enabled in `vite.config.ts`. Treat manual memoization as an exception for measured cost or required reference identity, not a default.
 - No automated test runner is configured. Do not claim `pnpm check` runs tests, and do not add test tooling as part of an unrelated change.
 - Do not edit the same file concurrently across agents. Establish shared contracts before delegating disjoint feature-owned paths.

@@ -103,6 +103,10 @@ Report:
 - any manual checks not completed;
 - known placeholder or intentionally inert behavior left unchanged.
 
+## Deployment analytics
+
+Vercel Web Analytics is installed as a runtime dependency and mounted once in `src/main.tsx`. To collect production traffic, enable Analytics for the Vercel project and redeploy. No environment variable is required. After deployment, visit the production site and verify an analytics request in the browser Network panel before relying on dashboard data.
+
 ## Documentation maintenance
 
 Update the matching reference in the same change:

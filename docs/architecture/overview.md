@@ -21,7 +21,7 @@ Features do not compose other feature UIs. Cross-feature actions such as opening
 
 ## Entry and provider tree
 
-`src/main.tsx` imports the Inter variable font and global styles, mounts React in strict mode, and renders `App`.
+`src/main.tsx` imports the Inter variable font and global styles, mounts React in strict mode, renders `App`, and mounts the Vercel Web Analytics component once beside it. Analytics is a deployment integration, not a feature dependency or provider.
 
 `src/app/app.tsx` establishes the long-lived provider order:
 
@@ -110,6 +110,10 @@ This separation prevents the pure registry from importing React or presentation-
 Tailwind CSS 4 is compiled through `@tailwindcss/vite`. Global keyframes and base rules live in `src/styles.css`; system variables and document-level defaults are declared on the root elements in `index.html`; feature styles are primarily colocated as Tailwind class strings.
 
 React Compiler is explicitly enabled in `vite.config.ts` through the React compiler preset and Rolldown Babel plugin. The code should therefore rely on normal value derivation and component boundaries before adding manual `memo`, `useMemo`, or `useCallback`.
+
+## Deployment analytics
+
+`src/main.tsx` mounts `Analytics` from `@vercel/analytics/react` once at the root. A Vercel production deployment reports page views and visitor metrics after Web Analytics is enabled for the project. No feature module owns or imports this integration.
 
 ## Deeper references
 
