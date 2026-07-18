@@ -2,24 +2,26 @@
 
 ## Domain taxonomy
 
-Keep feature domain code pure: it must not import React or read browser globals. Use these subfolders when the category exists:
+Feature domain code is deterministic. It must not import React, read browser globals, call `fetch`, or mutate the DOM.
+
+Use these categories when the feature has them:
 
 ```text
 domain/
-  enums/
-  models/
-  constants/
-  reducers/
-  selectors/
+  constants/   static data, defaults, registries, copy
+  enums/       stable closed sets with persisted string values
+  models/      object-shaped concepts and state contracts
+  reducers/    deterministic state transitions
+  selectors/   deterministic derived values
 ```
 
-Pure operations that do not fit those categories may live directly under `domain`, for example `execute-terminal-command.ts` or `clamp-window-position.ts`.
+Pure operations that do not fit a category may live directly under `domain`, such as `execute-terminal-command.ts`, `calculate-window-layout.ts`, and `clamp-window-position.ts`.
 
-Put object-shaped concepts such as `WindowState`, `FinderEntry`, `FinderPreferences`, and `SystemPreferences` in `domain/models`, with one primary model per kebab-case file. A model file may include a closely related supporting type when splitting it would harm locality.
+Reusable or independently meaningful browser capabilities belong in `adapters`; hooks or containers coordinate them with React lifecycle. For example, the weather adapter performs `fetch`, while `use-maringa-weather.ts` owns cancellation, refresh cadence, and React state. A tightly scoped DOM subscription may remain in its workflow owner, as Finder's toolbar outside-pointer listener does, provided the effect performs explicit cleanup.
 
-## Enums
+## Closed domain concepts
 
-Represent every applicable stable, closed domain concept with a dedicated string-valued enum under the owning feature's `domain/enums` folder. Each enum gets its own kebab-case file:
+Use a dedicated string enum for a stable, closed concept when its values participate in state, persistence, rendering switches, or public contracts:
 
 ```ts
 export enum FinderView {
@@ -30,74 +32,128 @@ export enum FinderView {
 }
 ```
 
-String values must preserve the existing runtime and persisted values exactly. Use enums for real domain vocabulary such as application IDs, settings sections, power states, overlay IDs, note IDs, desktop-file IDs, and Finder views. Do not create enums for arbitrary UI copy or generic helper values.
+Each enum lives in its own kebab-case file. Preserve existing string values exactly; `AppId`, Finder preferences, task IDs, overlay IDs, Settings sections, window actions, and power states all depend on them.
 
-When a concept composes other closed sets, use a type alias over dedicated enums instead of duplicating enum members:
+Use a union over existing enums when a concept combines two closed sets:
 
 ```ts
-export enum AppId {
-  FINDER = 'finder',
-  SAFARI = 'safari',
-}
-
-export enum DockUtilityId {
-  LAUNCHPAD = 'launchpad',
-  TRASH = 'trash',
-}
-
 export type DockId = AppId | DockUtilityId;
 ```
 
-## State ownership
+Do not create enums for arbitrary UI copy, open-ended server values, or a boolean with no meaningful domain vocabulary.
 
-Use React's built-in state primitives and a hybrid ownership model; do not introduce a new state library in this phase.
+## Provider tree and ownership
 
-- The desktop shell owns system-wide state: windows, overlays, login and power state, appearance, and persisted system preferences.
-- Feature containers own feature-local workflows and state, such as Finder selection and search, Terminal commands, or feature menus.
-- Domain reducers and functions own deterministic state transitions.
-- Presentational components receive small, explicit props.
-- Leaf components may keep local ephemeral interaction state.
+Long-lived state is composed in `src/app/app.tsx`:
 
-At high-update shared seams, separate state and action contexts. A consumer that only calls a stable action should not rerender whenever the corresponding state changes:
+```text
+WindowManagerProvider
+  DesktopProvider
+    FinderProvider
+      NotesProvider
+        DesktopCompositionContainer
+```
+
+| Owner | State | Persistence |
+| --- | --- | --- |
+| `WindowManagerProvider` | Open windows, bounds, z-order, minimized/maximized flags | Session only |
+| `DesktopProvider` session | Login, boot mode, power state, active system dialog | Session only |
+| `DesktopProvider` appearance | Dark mode, accent, low-power mode, system preferences, brightness | Accent, preferences, and brightness persist |
+| `DesktopProvider` interaction | Active overlay, desktop reveal, selected desktop file | Session only |
+| `FinderProvider` | Current section and Finder preferences | Preferences persist; section is session-only |
+| `NotesProvider` | Selected note and completed Today tasks | Completed tasks persist; selection is session-only |
+| `DesktopCompositionContainer` | Selected System Settings section | Session only, survives closing the Settings window |
+| `SettingsProvider` | Accent-picker disclosure and simulated panel toggles | Local to the mounted Settings content |
+| Feature containers/components | Search text, selected item, Terminal lines, Messages send state, popovers | Local to the mounted feature |
+
+Opening an already-open application restores and focuses the same window. Minimizing keeps its content mounted, so local state survives. Closing removes the window; reopening mounts fresh feature-local state. Provider-owned Finder and Notes state survives closing their windows because those providers live above application content.
+
+## State and action contexts
+
+Shared feature state uses separate state and action contexts:
 
 ```text
 contexts/
-  window-state-context.ts
-  window-actions-context.ts
+  <feature>-state-context.ts
+  <feature>-actions-context.ts
+hooks/
+  use-<feature>-state.ts
+  use-<feature>-actions.ts
 ```
 
-Keep cohesive values grouped; do not create one context per field.
+Consumers use the owning hooks instead of reading a context directly. The hooks fail clearly when called outside the provider.
 
-### State library performance decision
+Desktop is split further by update domain:
 
-Retain the existing Context-based ownership model after the React 19 performance review. The
-number of providers is not itself a meaningful performance bottleneck: state and actions are
-already separated, root updates are low-frequency, window dragging remains imperative until its
-final state commit, and React Compiler stabilizes provider values and unaffected render work.
+- session state/actions;
+- appearance state/actions;
+- interaction state/actions.
 
-Do not add Zustand without profiler evidence that consumers need selector-level subscriptions.
-Reconsider an external store if a future high-frequency shared state path causes measurable
-context fan-out that component locality and narrower contexts cannot address.
+This keeps APIs cohesive without putting every desktop concern into one value. Do not create one context per field, and do not recombine the current contexts into an all-purpose desktop object.
 
-## Hooks and adapters
+## Reducers and deterministic transitions
 
-Hooks connect React lifecycle to domain operations and adapters. Examples include:
+The window manager uses `useReducer` because window actions form a coherent state machine. Its reducer owns:
 
-```text
-features/desktop/hooks/use-clock.ts
-features/desktop/hooks/use-weather.ts
-features/desktop/hooks/use-desktop-shortcuts.ts
-features/window-manager/hooks/use-window-drag.ts
-```
+- single-instance open/restore behavior;
+- close and focus;
+- final movement commits;
+- calculated window arrangements;
+- minimize and maximize transitions;
+- z-order increments.
 
-Adapters are React-independent. Keep shared adapters as thin browser-capability wrappers, while feature adapters own domain semantics such as keys, defaults, validation, and fallback behavior:
+The reducer receives viewport information in actions instead of reading `window`, keeping it deterministic. `calculate-window-layout.ts` and `clamp-window-position.ts` remain pure domain operations.
 
-```text
-shared/adapters/local-storage.ts
-features/finder/adapters/finder-preferences-storage.ts
-features/desktop/adapters/system-preferences-storage.ts
-```
+Notes task completion is a smaller pure reducer function. Do not introduce `useReducer` only for uniformity when a feature has a few independent local values.
 
-Do not promote a browser capability to `shared` until multiple features genuinely consume it. Viewport measurement and animation-frame behavior may remain in `window-manager` while it is their sole owner.
+## Derived state
 
-Preserve all current storage keys, serialized values, defaults, validation behavior, browser timing, and fallbacks during extraction.
+Prefer computing values during render over synchronizing redundant state. Current examples include:
+
+- active and fullscreen windows selected from the window collection;
+- filtered Finder entries derived from section, query, and constants;
+- the current note selected from note ID and note constants;
+- presentation lists derived from `APPLICATION_REGISTRY`.
+
+Store the smallest source of truth. Use an effect only for lifecycle synchronization with an external system, event subscription, timer, persistence adapter, or imperative browser behavior.
+
+Refs in Desktop, Finder, and Notes providers hold the latest state for action closures before writing a merged update. Preserve that atomic merge behavior when changing persisted state.
+
+## Containers and local state
+
+Containers coordinate a meaningful workflow; using state alone does not make a component a container.
+
+- `FinderContainer` coordinates search, selection, popovers, preferences, clipboard, and app opening.
+- `TerminalContainer` coordinates input and command history with the pure command executor.
+- `MessagesContainer` owns the simulated send state.
+- `SettingsContainer` scopes a Settings provider around Settings content.
+
+Leaf components may keep ephemeral state that affects only themselves. Promote it only when siblings, system surfaces, persistence, or cross-feature workflows need it.
+
+## React Compiler and memoization
+
+React Compiler is enabled in `vite.config.ts`. Normal functions, object literals, and derived values inside components are compiled with automatic memoization where safe.
+
+Do not add `memo`, `useMemo`, or `useCallback` by reflex. Use manual memoization only when:
+
+- a browser or library API requires stable reference identity;
+- a dependency array must represent a deliberately stable external subscription;
+- profiling shows a meaningful calculation or subtree still needs an explicit boundary;
+- compiler diagnostics require a targeted escape hatch.
+
+Provider count is not itself a performance defect. The current ownership model keeps high-frequency window dragging out of React state until pointer-up and splits contexts by concern. Do not add an external store without profiler evidence of costly shared-state fan-out that cannot be solved with ownership or context boundaries.
+
+## Adapters and failure behavior
+
+Adapters are React-independent and own capability-specific fallback behavior:
+
+- storage adapters validate or merge saved values with defaults;
+- the shared local-storage adapter swallows browser access failures;
+- the clipboard adapter reports a non-blocking fallback string;
+- the weather adapter returns `null` for invalid responses;
+- browser-window adapters expose viewport and animation-frame capabilities;
+- boot and keyboard adapters wrap timers and document subscriptions.
+
+Hooks and containers decide when to call adapters and how to clean up timers, listeners, requests, pointer state, or animation frames. Keep serialized values, timing, cleanup, and failure behavior stable during refactors.
+
+See [`runtime-and-persistence.md`](runtime-and-persistence.md) for exact keys, lifecycle transitions, loading behavior, and external capabilities.

@@ -1,46 +1,50 @@
-# Refactor verification
+# Refactor and verification
 
-## Migration sequence
+## Required automated gate
 
-Perform structural extraction incrementally:
-
-1. Record a passing `pnpm check` baseline.
-2. Add the `@/` alias and foundational domain contracts.
-3. Extract enums, models, constants, reducers, selectors, and adapters.
-4. Extract the window manager and desktop shell.
-5. Extract each simulated application feature independently.
-6. Promote only proven multi-feature modules to `shared`.
-7. Reduce `src/app/app.tsx` to composition.
-8. Run the automated gate and complete the browser regression checklist.
-
-Run after every stage:
+Before structural work, record a passing baseline when possible:
 
 ```powershell
 pnpm check
 ```
 
-`pnpm check` runs both repository gates:
+Run it again after each meaningful refactor stage and before handoff. The command runs:
 
 ```powershell
 pnpm lint
 pnpm build
 ```
 
-Do not add a test runner or test files in this phase. A passing automated gate is necessary but does not prove behavior preservation; complete the manual browser pass as well.
+`pnpm build` includes TypeScript project checking and the Vite production bundle. No automated test suite is configured, so a passing gate does not prove UI behavior.
+
+## Safe refactor sequence
+
+1. Identify the owning feature and read its architecture references.
+2. Record runtime contracts: IDs, enum strings, storage keys, defaults, loading mode, CSS hooks, event order, and mount behavior.
+3. Establish any shared domain interface before extracting consumers.
+4. Move pure domain code and adapters before changing component composition.
+5. Extract containers and components in small feature-owned stages.
+6. Keep cross-feature UI composition in `src/app`.
+7. Promote only proven multi-feature primitives to `shared`.
+8. Run `pnpm check`, inspect the complete diff, and perform the browser checklist.
+9. Update the architecture and feature docs that describe the changed contract.
+
+Do not combine a behavior fix, visual redesign, state-library migration, storage migration, or broad formatting pass with a structural refactor unless the task explicitly includes it.
 
 ## Parallel agent boundaries
 
-Establish shared domain contracts, application IDs, import alias behavior, and composition interfaces before parallel extraction.
+Before delegation, establish shared contracts, `AppId` changes, application metadata, import behavior, and app composition interfaces.
 
-Delegate only disjoint, feature-owned file sets. Assign one owner per feature or infrastructure area and state the exact allowed paths. Agents must not edit the same file concurrently. Keep shared composition, shared contracts, configuration, and conflict-prone root files with a single integration owner unless ownership is explicitly handed off.
+Delegate only disjoint file sets. Assign one owner per feature or infrastructure area and state exact allowed paths. Keep conflict-prone composition files, shared contracts, configuration, and root docs with one integration owner unless ownership is explicitly handed off.
 
 Each delegated result must report:
 
-- Files created, moved, or changed.
-- Any behavior-preservation concern or unresolved coupling.
-- Commands run and their results.
+- files created, moved, or changed;
+- behavior-preservation concerns or unresolved coupling;
+- commands and browser checks run;
+- documentation that needs integration updates.
 
-Integrate and run `pnpm check` after each batch. Inspect the combined diff for cross-feature imports, duplicate domain concepts, renamed runtime values, and style changes before starting the next batch.
+Do not edit the same file concurrently. Integrate in small batches and inspect for cross-feature UI imports, duplicate domain concepts, renamed runtime values, broken lazy imports, and styling changes.
 
 ## Manual browser checklist
 
@@ -50,37 +54,80 @@ Start the application with:
 pnpm dev
 ```
 
-Verify the same behavior and visual state before and after the refactor:
+Use a clean server/browser session for final verification.
 
-- Complete the boot and login flow, including the same initial focus and transition behavior.
-- Open every Dock application and every application reachable through Launchpad or menus.
-- Confirm application titles, icons, initial window sizes and positions, and single-instance or multi-instance behavior remain unchanged.
-- Focus and reorder overlapping windows; verify active styling and stacking order.
-- Drag windows through the same pointer paths and confirm movement remains smooth and commits at the same time.
-- Minimize, restore, maximize, unmaximize, and close windows from every supported control and entry point.
-- Verify Dock active, minimized, hover, and reveal behavior.
-- Exercise menu-bar menus, system overlays, desktop reveal, and dismissal by outside click, keyboard, or existing actions.
-- Exercise Finder navigation, selection, search, all Finder views, sidebar actions, and preferences.
-- Exercise each application's feature-specific controls, including controls intentionally left inert.
-- Exercise Settings changes, dark mode and appearance changes, and persistence after reload.
-- Verify clock, weather, timers, keyboard shortcuts, and viewport-dependent behavior update on the same cadence and events.
-- Exercise sleep, wake, restart, shutdown, logout, and return-to-login flows that the UI exposes.
-- Reload the page and confirm stored preferences, identifiers, defaults, and recovery from missing or invalid storage match the previous behavior.
-- Check responsive or constrained viewport layouts used by the current application.
-- Inspect the browser console throughout the pass; introduce no new errors or warnings.
+### Startup and session
 
-Treat current quirks as contractual behavior for this phase. Record suspected defects separately instead of fixing them during extraction.
+- Complete startup boot and login; confirm timing, focus, and transitions.
+- Lock or log out and return to login.
+- Sleep and wake without losing the intended session state.
+- Restart through the boot/login flow.
+- Shut down and power on through startup.
+
+### Application launch and loading
+
+- Open every Dock application and utility.
+- Open every application reachable from Launchpad, Finder entries, desktop files, Spotlight, Siri, and menus.
+- Confirm Finder renders immediately and lazy applications show no broken or permanent loading state on first open.
+- Verify titles, icons, labels, initial bounds, and single-instance restore behavior.
+- Close and reopen each app; confirm only the documented local state resets.
+
+### Window manager
+
+- Focus overlapping windows and verify active styling and z-order.
+- Drag through representative pointer paths; confirm smooth direct movement and final clamped state.
+- Minimize, restore, maximize, unmaximize, center, move to each half, and close.
+- Confirm only one window is maximized at a time.
+- Reveal/hide the desktop and verify window transforms and accessibility state.
+- Repeat key paths below and above the 900px and 600px responsive breakpoints.
+
+### Desktop surfaces
+
+- Exercise every menu-bar menu and supported command.
+- Open/dismiss Wi-Fi, Battery, Siri, Control Center, Notification Center, Spotlight, and Launchpad.
+- Verify Force Quit and Keyboard Shortcuts dialogs.
+- Check Dock active/minimized/hover/reveal, auto-hide, size, and recents behavior.
+- Select/open desktop files and interact with calendar, weather, system, and Today widgets.
+- Verify Command/Ctrl + Space and Escape behavior.
+
+### Simulated applications
+
+- Finder: every section, search, selection, all views, sidebar, preview, status bar, icon size, share, copy link, and outside-menu dismissal.
+- Safari: navigation anchors, scrolling, project content, and responsive work grid.
+- Messages: conversation layout, composer submit, and local sent bubble.
+- Photos: gallery and responsive overflow/layout.
+- Notes: note selection and Today task toggles from both Notes and desktop widget.
+- Terminal: all supported commands, unknown command, empty input, `date`, `clear`, and focus behavior.
+- Settings: every section, appearance, accent picker, persistent controls, and session-only controls.
+- About: content, outbound links, and intentionally inert More Info control.
+
+### Persistence and failure behavior
+
+- Reload and verify accent, brightness, system preferences, Finder preferences, and completed Today tasks.
+- Confirm session-only state resets as documented.
+- Test missing and malformed storage values when persistence code changes.
+- Confirm blocked storage remains non-fatal.
+- Verify weather fallback/offline behavior when weather code changes.
+- Verify clipboard failure messaging when sharing code changes.
+
+### Accessibility and console
+
+- Navigate changed controls with the keyboard and verify visible focus.
+- Verify labels, pressed/expanded state, dialog semantics, and dismissal.
+- Exercise reduced motion; for material changes also check reduced transparency and increased contrast.
+- Inspect the browser console throughout and introduce no new errors or warnings.
 
 ## Completion evidence
 
-Before declaring the refactor complete, confirm all of the following from the current worktree:
+Before declaring behavior-preserving work complete, confirm:
 
-- `pnpm check` passes after the integrated refactor.
-- Every authored source filename is kebab-case.
-- Every local source import uses `@/`, and no feature `index.ts` entrypoint was introduced.
-- Each component and enum has its own file, and applicable closed domain concepts use the agreed string enums.
-- `src/app` is the only layer composing feature UIs; the window manager is application-agnostic.
-- No test tooling, lazy loading, styling redesign, behavior fix, storage-key change, or runtime-value change was mixed into the refactor.
-- The full manual browser checklist was completed against the integrated build.
+- `pnpm check` passes from the final worktree.
+- Every authored source filename is kebab-case and local source import uses `@/`.
+- No feature UI imports another feature UI; `src/app` owns cross-feature composition.
+- Domain code stays pure, reusable browser capabilities stay behind adapters, and scoped lifecycle access remains isolated to hooks or containers with cleanup.
+- Application IDs, registry metadata, enum strings, storage keys, defaults, fallbacks, and lazy/eager boundaries are intact unless explicitly changed.
+- Tailwind semantics, CSS hooks, accessibility, motion, responsive behavior, and mount/reset behavior were preserved.
+- The relevant browser checklist was completed against the integrated build.
+- Root and modular docs match the new implementation.
 
-Lazy loading remains a follow-up performance phase. It must include explicit loading-state design and its own behavior verification rather than being folded into this structural change.
+Record any skipped manual check explicitly. Do not treat a clean build as equivalent to browser regression coverage.
