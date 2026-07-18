@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useReducer, type ReactNode } from 'react';
+import { useReducer, type ReactNode } from 'react';
 
 import {
   WindowActionsContext,
@@ -21,36 +21,33 @@ type WindowManagerProviderProps = {
 export function WindowManagerProvider({ children }: WindowManagerProviderProps) {
   const [windows, dispatch] = useReducer(windowReducer, [INITIAL_WINDOW]);
 
-  const openWindow = useCallback((app: AppId) => {
+  const openWindow = (app: AppId) => {
     dispatch({ type: WindowActionType.OPEN, app, id: createWindowId() });
-  }, []);
-  const closeWindow = useCallback((id: number) => {
+  };
+  const closeWindow = (id: number) => {
     dispatch({ type: WindowActionType.CLOSE, id });
-  }, []);
-  const focusWindow = useCallback((id: number) => {
+  };
+  const focusWindow = (id: number) => {
     dispatch({ type: WindowActionType.FOCUS, id });
-  }, []);
-  const moveWindow = useCallback((id: number, x: number, y: number) => {
+  };
+  const moveWindow = (id: number, x: number, y: number) => {
     dispatch({ type: WindowActionType.MOVE, id, x, y, viewport: readViewportSize() });
-  }, []);
-  const minimizeWindow = useCallback((id: number) => {
+  };
+  const minimizeWindow = (id: number) => {
     dispatch({ type: WindowActionType.MINIMIZE, id });
-  }, []);
-  const toggleMaximizeWindow = useCallback((id: number) => {
+  };
+  const toggleMaximizeWindow = (id: number) => {
     dispatch({ type: WindowActionType.TOGGLE_MAXIMIZE, id });
-  }, []);
+  };
 
-  const actions = useMemo<WindowActions>(
-    () => ({
-      openWindow,
-      closeWindow,
-      focusWindow,
-      moveWindow,
-      minimizeWindow,
-      toggleMaximizeWindow,
-    }),
-    [closeWindow, focusWindow, minimizeWindow, moveWindow, openWindow, toggleMaximizeWindow],
-  );
+  const actions: WindowActions = {
+    openWindow,
+    closeWindow,
+    focusWindow,
+    moveWindow,
+    minimizeWindow,
+    toggleMaximizeWindow,
+  };
 
   return (
     <WindowActionsContext value={actions}>

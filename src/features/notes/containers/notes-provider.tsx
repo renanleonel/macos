@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 
 import {
   NotesActionsContext,
@@ -27,25 +27,19 @@ export function NotesProvider({ children }: NotesProviderProps) {
     completedTasksRef.current = completedTasks;
   }, [completedTasks]);
 
-  const selectNote = useCallback((noteId: NoteId) => {
+  const selectNote = (noteId: NoteId) => {
     setSelectedNoteId(noteId);
-  }, []);
+  };
 
-  const toggleTask = useCallback((taskId: TodayTaskId) => {
+  const toggleTask = (taskId: TodayTaskId) => {
     const nextTasks = toggleCompletedTask(completedTasksRef.current, taskId);
 
     setCompletedTasks(nextTasks);
     writeCompletedTasks(nextTasks);
-  }, []);
+  };
 
-  const state = useMemo<NotesState>(
-    () => ({ selectedNoteId, completedTasks }),
-    [completedTasks, selectedNoteId],
-  );
-  const actions = useMemo<NotesActions>(
-    () => ({ selectNote, toggleTask }),
-    [selectNote, toggleTask],
-  );
+  const state: NotesState = { selectedNoteId, completedTasks };
+  const actions: NotesActions = { selectNote, toggleTask };
 
   return (
     <NotesActionsContext value={actions}>

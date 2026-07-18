@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { copyPortfolioLink } from '@/features/finder/adapters/portfolio-link-clipboard';
 import { FinderFiles } from '@/features/finder/components/finder-files';
@@ -25,12 +25,12 @@ export function FinderContainer({ openApp }: FinderContainerProps) {
   const [toolbarMenu, setToolbarMenu] = useState<FinderToolbarMenu | null>(null);
   const [shareStatus, setShareStatus] = useState('');
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
-  const filteredItems = useMemo(() => {
+  const filteredItems = (() => {
     const sectionItems = FINDER_SECTIONS[section] ?? [];
     const normalized = query.trim().toLocaleLowerCase();
     if (!normalized) return sectionItems;
     return sectionItems.filter((item) => item.name.toLocaleLowerCase().includes(normalized));
-  }, [query, section]);
+  })();
   const canResizeIcons = preferences.view === FinderView.ICONS;
 
   const selectSection = (nextSection: FinderSection) => {

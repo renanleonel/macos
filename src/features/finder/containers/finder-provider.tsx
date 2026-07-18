@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 
 import {
   readFinderPreferences,
@@ -26,17 +26,14 @@ export function FinderProvider({ children }: FinderProviderProps) {
     preferencesRef.current = preferences;
   }, [preferences]);
 
-  const updatePreferences = useCallback((patch: Partial<FinderPreferences>) => {
+  const updatePreferences = (patch: Partial<FinderPreferences>) => {
     const next = { ...preferencesRef.current, ...patch };
     setPreferences(next);
     writeFinderPreferences(next);
-  }, []);
+  };
 
-  const state = useMemo<FinderState>(() => ({ preferences, section }), [preferences, section]);
-  const actions = useMemo<FinderActions>(
-    () => ({ setSection, updatePreferences }),
-    [updatePreferences],
-  );
+  const state: FinderState = { preferences, section };
+  const actions: FinderActions = { setSection, updatePreferences };
 
   return (
     <FinderActionsContext value={actions}>

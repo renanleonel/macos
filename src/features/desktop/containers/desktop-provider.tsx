@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 
 import {
   readAccentColor,
@@ -60,68 +60,54 @@ export function DesktopProvider({ children }: DesktopProviderProps) {
     systemPreferencesRef.current = systemPreferences;
   }, [systemPreferences]);
 
-  const setAccentColor = useCallback((value: AccentColorId) => {
+  const setAccentColor = (value: AccentColorId) => {
     setAccentColorState(value);
     writeAccentColor(value);
-  }, []);
-  const updateSystemPreferences = useCallback((patch: Partial<SystemPreferences>) => {
+  };
+  const updateSystemPreferences = (patch: Partial<SystemPreferences>) => {
     const next = { ...systemPreferencesRef.current, ...patch };
     setSystemPreferences(next);
     writeSystemPreferences(next);
-  }, []);
-  const setBrightness = useCallback((value: number) => {
+  };
+  const setBrightness = (value: number) => {
     setBrightnessState(value);
     writeBrightness(value);
-  }, []);
-  const completeBoot = useCallback(() => setBootMode(null), []);
+  };
+  const completeBoot = () => setBootMode(null);
 
   useBootCompletion(bootMode, completeBoot);
 
-  const appearanceState = useMemo<DesktopAppearanceState>(
-    () => ({
-      dark,
-      accentColor,
-      lowPower,
-      systemPreferences,
-      brightness,
-    }),
-    [accentColor, brightness, dark, lowPower, systemPreferences],
-  );
-  const appearanceActions = useMemo<DesktopAppearanceActions>(
-    () => ({
-      setDark,
-      setAccentColor,
-      setLowPower,
-      updateSystemPreferences,
-      setBrightness,
-    }),
-    [setAccentColor, setBrightness, updateSystemPreferences],
-  );
-  const sessionState = useMemo<DesktopSessionState>(
-    () => ({ loggedIn, bootMode, powerState, systemDialog }),
-    [bootMode, loggedIn, powerState, systemDialog],
-  );
-  const sessionActions = useMemo<DesktopSessionActions>(
-    () => ({
-      setLoggedIn,
-      setBootMode,
-      setPowerState,
-      setSystemDialog,
-    }),
-    [],
-  );
-  const interactionState = useMemo<DesktopInteractionState>(
-    () => ({ overlay, showDesktop, selectedDesktopFile }),
-    [overlay, selectedDesktopFile, showDesktop],
-  );
-  const interactionActions = useMemo<DesktopInteractionActions>(
-    () => ({
-      setOverlay,
-      setShowDesktop,
-      setSelectedDesktopFile,
-    }),
-    [],
-  );
+  const appearanceState: DesktopAppearanceState = {
+    dark,
+    accentColor,
+    lowPower,
+    systemPreferences,
+    brightness,
+  };
+  const appearanceActions: DesktopAppearanceActions = {
+    setDark,
+    setAccentColor,
+    setLowPower,
+    updateSystemPreferences,
+    setBrightness,
+  };
+  const sessionState: DesktopSessionState = { loggedIn, bootMode, powerState, systemDialog };
+  const sessionActions: DesktopSessionActions = {
+    setLoggedIn,
+    setBootMode,
+    setPowerState,
+    setSystemDialog,
+  };
+  const interactionState: DesktopInteractionState = {
+    overlay,
+    showDesktop,
+    selectedDesktopFile,
+  };
+  const interactionActions: DesktopInteractionActions = {
+    setOverlay,
+    setShowDesktop,
+    setSelectedDesktopFile,
+  };
 
   return (
     <DesktopSessionActionsContext value={sessionActions}>

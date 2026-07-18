@@ -1,13 +1,45 @@
-import { AboutContent } from '@/features/about/components/about-content';
-import { SettingsContentContainer } from '@/app/containers/settings-content-container';
+import { lazy, Suspense, type ReactNode } from 'react';
+
+import { AppContentLoading } from '@/app/components/app-content-loading';
 import { FinderContainer } from '@/features/finder/containers/finder-container';
-import { MessagesContainer } from '@/features/messages/containers/messages-container';
-import { NotesContainer } from '@/features/notes/containers/notes-container';
-import { PhotosContent } from '@/features/photos/components/photos-content';
-import { SafariContent } from '@/features/safari/components/safari-content';
 import type { SettingsSectionId } from '@/features/settings/domain/enums/settings-section-id';
-import { TerminalContainer } from '@/features/terminal/containers/terminal-container';
 import { AppId } from '@/shared/domain/enums/app-id';
+
+const AboutContent = lazy(() =>
+  import('@/features/about/components/about-content').then(({ AboutContent }) => ({
+    default: AboutContent,
+  })),
+);
+const MessagesContainer = lazy(() =>
+  import('@/features/messages/containers/messages-container').then(({ MessagesContainer }) => ({
+    default: MessagesContainer,
+  })),
+);
+const NotesContainer = lazy(() =>
+  import('@/features/notes/containers/notes-container').then(({ NotesContainer }) => ({
+    default: NotesContainer,
+  })),
+);
+const PhotosContent = lazy(() =>
+  import('@/features/photos/components/photos-content').then(({ PhotosContent }) => ({
+    default: PhotosContent,
+  })),
+);
+const SafariContent = lazy(() =>
+  import('@/features/safari/components/safari-content').then(({ SafariContent }) => ({
+    default: SafariContent,
+  })),
+);
+const SettingsContentContainer = lazy(() =>
+  import('@/app/containers/settings-content-container').then(({ SettingsContentContainer }) => ({
+    default: SettingsContentContainer,
+  })),
+);
+const TerminalContainer = lazy(() =>
+  import('@/features/terminal/containers/terminal-container').then(({ TerminalContainer }) => ({
+    default: TerminalContainer,
+  })),
+);
 
 type AppContentContainerProps = {
   app: AppId;
@@ -22,27 +54,39 @@ export function AppContentContainer({
   settingsSection,
   setSettingsSection,
 }: AppContentContainerProps) {
+  let content: ReactNode;
+
   switch (app) {
     case AppId.FINDER:
-      return <FinderContainer openApp={openApp} />;
+      content = <FinderContainer openApp={openApp} />;
+      break;
     case AppId.SAFARI:
-      return <SafariContent />;
+      content = <SafariContent />;
+      break;
     case AppId.MESSAGES:
-      return <MessagesContainer />;
+      content = <MessagesContainer />;
+      break;
     case AppId.PHOTOS:
-      return <PhotosContent />;
+      content = <PhotosContent />;
+      break;
     case AppId.NOTES:
-      return <NotesContainer />;
+      content = <NotesContainer />;
+      break;
     case AppId.TERMINAL:
-      return <TerminalContainer />;
+      content = <TerminalContainer />;
+      break;
     case AppId.SETTINGS:
-      return (
+      content = (
         <SettingsContentContainer
           settingsSection={settingsSection}
           setSettingsSection={setSettingsSection}
         />
       );
+      break;
     case AppId.ABOUT:
-      return <AboutContent />;
+      content = <AboutContent />;
+      break;
   }
+
+  return <Suspense fallback={<AppContentLoading />}>{content}</Suspense>;
 }

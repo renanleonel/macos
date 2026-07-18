@@ -68,6 +68,17 @@ contexts/
 
 Keep cohesive values grouped; do not create one context per field.
 
+### State library performance decision
+
+Retain the existing Context-based ownership model after the React 19 performance review. The
+number of providers is not itself a meaningful performance bottleneck: state and actions are
+already separated, root updates are low-frequency, window dragging remains imperative until its
+final state commit, and React Compiler stabilizes provider values and unaffected render work.
+
+Do not add Zustand without profiler evidence that consumers need selector-level subscriptions.
+Reconsider an external store if a future high-frequency shared state path causes measurable
+context fan-out that component locality and narrower contexts cannot address.
+
 ## Hooks and adapters
 
 Hooks connect React lifecycle to domain operations and adapters. Examples include:

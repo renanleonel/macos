@@ -1,6 +1,4 @@
 import {
-  useCallback,
-  useMemo,
   useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
@@ -49,7 +47,6 @@ import { FinderSection } from '@/features/finder/domain/enums/finder-section';
 import { useFinderActions } from '@/features/finder/hooks/use-finder-actions';
 import { useFinderState } from '@/features/finder/hooks/use-finder-state';
 import { NoteId } from '@/features/notes/domain/enums/note-id';
-import type { TodayTaskId } from '@/features/notes/domain/enums/today-task-id';
 import { useNotesActions } from '@/features/notes/hooks/use-notes-actions';
 import { useNotesState } from '@/features/notes/hooks/use-notes-state';
 import { SettingsSectionId } from '@/features/settings/domain/enums/settings-section-id';
@@ -85,8 +82,8 @@ export function DesktopCompositionContainer() {
   const [settingsSection, setSettingsSection] = useState<SettingsSectionId>(
     SettingsSectionId.APPEARANCE,
   );
-  const activeWindow = useMemo(() => selectActiveWindow(windows), [windows]);
-  const fullscreenWindow = useMemo(() => selectFullscreenWindow(windows), [windows]);
+  const activeWindow = selectActiveWindow(windows);
+  const fullscreenWindow = selectFullscreenWindow(windows);
   const activeApp = activeWindow?.app ?? AppId.FINDER;
   const accent = ACCENT_COLORS[accentColor];
   const desktopStyle = {
@@ -96,80 +93,58 @@ export function DesktopCompositionContainer() {
     '--link-color': accent.deep,
   } as CSSProperties;
 
-  const openApp = useCallback(
-    (app: AppId) => {
-      setShowDesktop(false);
-      openWindow(app);
-      setOverlay(null);
-    },
-    [openWindow, setOverlay, setShowDesktop],
-  );
-  const openSettings = useCallback(
-    (section: SettingsSectionId) => {
-      setSettingsSection(section);
-      openApp(AppId.SETTINGS);
-    },
-    [openApp],
-  );
-  const launch = useCallback(
-    (app: DockId) => {
-      setShowDesktop(false);
-      if (app === DockUtilityId.LAUNCHPAD) {
-        return setOverlay(overlay === OverlayId.LAUNCHPAD ? null : OverlayId.LAUNCHPAD);
-      }
-      if (app === DockUtilityId.MAIL) return openApp(AppId.MESSAGES);
-      if (app === DockUtilityId.TRASH) {
-        setFinderSection(FinderSection.TRASH);
-        return openApp(AppId.FINDER);
-      }
-      openApp(app);
-    },
-    [openApp, overlay, setFinderSection, setOverlay, setShowDesktop],
-  );
-  const closeOverlay = useCallback(() => setOverlay(null), [setOverlay]);
-  const minimizeActiveWindow = useCallback(() => {
+  const openApp = (app: AppId) => {
+    setShowDesktop(false);
+    openWindow(app);
+    setOverlay(null);
+  };
+  const openSettings = (section: SettingsSectionId) => {
+    setSettingsSection(section);
+    openApp(AppId.SETTINGS);
+  };
+  const launch = (app: DockId) => {
+    setShowDesktop(false);
+    if (app === DockUtilityId.LAUNCHPAD) {
+      return setOverlay(overlay === OverlayId.LAUNCHPAD ? null : OverlayId.LAUNCHPAD);
+    }
+    if (app === DockUtilityId.MAIL) return openApp(AppId.MESSAGES);
+    if (app === DockUtilityId.TRASH) {
+      setFinderSection(FinderSection.TRASH);
+      return openApp(AppId.FINDER);
+    }
+    openApp(app);
+  };
+  const closeOverlay = () => setOverlay(null);
+  const minimizeActiveWindow = () => {
     setShowDesktop(false);
     if (activeWindow) minimizeWindow(activeWindow.id);
     setOverlay(null);
-  }, [activeWindow, minimizeWindow, setOverlay, setShowDesktop]);
-  const maximizeActiveWindow = useCallback(() => {
+  };
+  const maximizeActiveWindow = () => {
     setShowDesktop(false);
     if (activeWindow) toggleMaximizeWindow(activeWindow.id);
     setOverlay(null);
-  }, [activeWindow, setOverlay, setShowDesktop, toggleMaximizeWindow]);
-  const focusActiveWindow = useCallback(() => {
+  };
+  const focusActiveWindow = () => {
     setShowDesktop(false);
     if (activeWindow) focusWindow(activeWindow.id);
     setOverlay(null);
-  }, [activeWindow, focusWindow, setOverlay, setShowDesktop]);
-  const openNote = useCallback(
-    (noteId: NoteId) => {
-      selectNote(noteId);
-      openApp(AppId.NOTES);
-    },
-    [openApp, selectNote],
-  );
-  const toggleTodayTask = useCallback((taskId: TodayTaskId) => toggleTask(taskId), [toggleTask]);
-
+  };
+  const openNote = (noteId: NoteId) => {
+    selectNote(noteId);
+    openApp(AppId.NOTES);
+  };
   useDesktopShortcuts(setOverlay, setShowDesktop);
 
-  const revealableWindows = useMemo(
-    () => windows.filter((window) => !window.minimized && !window.maximized),
-    [windows],
+  const revealableWindows = windows.filter((window) => !window.minimized && !window.maximized);
+  const revealEdgeByWindow = new Map(
+    revealableWindows.map((window, index) => [
+      window.id,
+      DESKTOP_REVEAL_EDGES[index % DESKTOP_REVEAL_EDGES.length],
+    ]),
   );
-  const revealEdgeByWindow = useMemo(
-    () =>
-      new Map(
-        revealableWindows.map((window, index) => [
-          window.id,
-          DESKTOP_REVEAL_EDGES[index % DESKTOP_REVEAL_EDGES.length],
-        ]),
-      ),
-    [revealableWindows],
-  );
-  const revealIndexByWindow = useMemo(
-    () => new Map(revealableWindows.map((window, index) => [window.id, index])),
-    [revealableWindows],
+  const revealIndexByWindow = new Map(
+    revealableWindows.map((window, index) => [window.id, index]),
   );
   const onDesktopPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
     setOverlay(null);
@@ -213,7 +188,7 @@ export function DesktopCompositionContainer() {
             lowPower={lowPower}
             brightness={brightness}
             completedTasks={completedTasks}
-            onToggleTask={toggleTodayTask}
+            onToggleTask={toggleTask}
             onOpenNote={openNote}
             openSettings={() => openSettings(SettingsSectionId.APPEARANCE)}
           />

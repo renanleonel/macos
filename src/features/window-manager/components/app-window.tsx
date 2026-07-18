@@ -1,4 +1,4 @@
-import { memo, type CSSProperties, type ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import { WindowTitleBar } from '@/features/window-manager/components/window-title-bar';
 import { desktopRevealTransform } from '@/features/window-manager/domain/desktop-reveal-transform';
@@ -21,7 +21,7 @@ type AppWindowProps = {
   children: ReactNode;
 };
 
-export const AppWindow = memo(function AppWindow({
+export function AppWindow({
   window,
   active,
   desktopRevealed,
@@ -95,4 +95,4 @@ export const AppWindow = memo(function AppWindow({
       </div>
     </section>
   );
-});
+}

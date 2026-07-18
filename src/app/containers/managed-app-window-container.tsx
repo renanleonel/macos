@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import { AppContentContainer } from '@/app/containers/app-content-container';
 import { AppWindow } from '@/features/window-manager/components/app-window';
 import type { DesktopRevealEdge } from '@/features/window-manager/domain/enums/desktop-reveal-edge';
@@ -19,7 +17,7 @@ type ManagedAppWindowContainerProps = {
   setSettingsSection: (section: SettingsSectionId) => void;
 };
 
-export const ManagedAppWindowContainer = memo(function ManagedAppWindowContainer({
+export function ManagedAppWindowContainer({
   window,
   active,
   desktopRevealed,
@@ -53,4 +51,4 @@ export const ManagedAppWindowContainer = memo(function ManagedAppWindowContainer
       />
     </AppWindow>
   );
-});
+}

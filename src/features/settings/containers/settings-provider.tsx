@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import {
   SettingsActionsContext,
@@ -34,39 +34,30 @@ export function SettingsProvider({
   const [accentOpen, setAccentOpen] = useState(false);
   const [toggleValues, setToggleValues] = useState(createInitialToggleValues);
 
-  const selectSection = useCallback(
-    (section: SettingsSectionId) => {
-      setSelectedSection(section);
-      setAccentOpen(false);
-    },
-    [setSelectedSection],
-  );
-  const toggleAccentPicker = useCallback(() => {
-    setAccentOpen((open) => !open);
-  }, []);
-  const closeAccentPicker = useCallback(() => {
+  const selectSection = (section: SettingsSectionId) => {
+    setSelectedSection(section);
     setAccentOpen(false);
-  }, []);
-  const toggleLocalSetting = useCallback((controlId: SettingsControlId) => {
+  };
+  const toggleAccentPicker = () => {
+    setAccentOpen((open) => !open);
+  };
+  const closeAccentPicker = () => {
+    setAccentOpen(false);
+  };
+  const toggleLocalSetting = (controlId: SettingsControlId) => {
     setToggleValues((current) => ({
       ...current,
       [controlId]: !current[controlId],
     }));
-  }, []);
+  };
 
-  const state = useMemo<SettingsStateContextValue>(
-    () => ({ selectedSection, accentOpen, toggleValues }),
-    [accentOpen, selectedSection, toggleValues],
-  );
-  const actions = useMemo<SettingsActionsContextValue>(
-    () => ({
-      selectSection,
-      toggleAccentPicker,
-      closeAccentPicker,
-      toggleLocalSetting,
-    }),
-    [closeAccentPicker, selectSection, toggleAccentPicker, toggleLocalSetting],
-  );
+  const state: SettingsStateContextValue = { selectedSection, accentOpen, toggleValues };
+  const actions: SettingsActionsContextValue = {
+    selectSection,
+    toggleAccentPicker,
+    closeAccentPicker,
+    toggleLocalSetting,
+  };
 
   return (
     <SettingsActionsContext value={actions}>
