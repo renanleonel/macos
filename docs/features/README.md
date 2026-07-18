@@ -83,11 +83,11 @@ Project cards are typed in `domain/constants/portfolio-projects.ts`. Hero, avail
 
 Path: `src/features/messages`
 
-Messages renders static contacts and a selected conversation. Submitting the composer toggles a single predefined sent bubble. It does not read the typed input, switch conversations, contact a server, or persist messages.
+Messages renders searchable contacts and a selected conversation. Visitors can switch chats and submit any non-empty composer value as a local sent bubble. Search matches contact details and conversation copy. Messages does not contact a server or persist drafts, search, selection, or sent replies.
 
 - Contacts: `domain/constants/message-contacts.ts`
 - Conversation copy: `domain/constants/conversation-messages.ts`
-- Local send state: `containers/messages-container.tsx`
+- Local search, selection, draft, and sent-message state: `containers/messages-container.tsx`
 
 The Dock's Mail utility intentionally opens Messages.
 

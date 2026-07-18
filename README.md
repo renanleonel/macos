@@ -23,7 +23,7 @@ The project is a client-only React application. There is no backend or authentic
 | --- | --- |
 | Finder | Presents the portfolio as a file system, with searchable sections, view controls, preview/status/sidebar options, link sharing, and entries that open other apps. |
 | Safari | Renders a portfolio page with placeholder project stories and contact navigation. |
-| Messages | Simulates a conversation and a local one-message send interaction. It does not send data to a server. |
+| Messages | Searches and switches between local conversations, and sends typed replies locally. It does not send data to a server. |
 | Photos | Displays a generated gallery of named visual tiles. |
 | Notes | Shows authored notes and a Today checklist shared with the desktop widget; task completion persists locally. |
 | Terminal | Implements a small local command interpreter for `help`, `about`, `projects`, `contact`, `skills`, `date`, and `clear`. |
@@ -112,7 +112,7 @@ State stays close to its owner:
 - `DesktopProvider` owns power/session, appearance, preferences, overlays, and desktop interaction state through separate state/action contexts.
 - `FinderProvider` owns Finder navigation and persisted Finder preferences.
 - `NotesProvider` owns note selection and persisted Today-task completion.
-- Feature containers own short-lived workflows such as Terminal history, Messages send state, Finder search, and Settings-only controls.
+- Feature containers own short-lived workflows such as Terminal history, Messages conversation state, Finder search, and Settings-only controls.
 
 The browser stores only these contracts:
 

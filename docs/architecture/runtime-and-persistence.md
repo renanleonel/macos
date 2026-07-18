@@ -71,7 +71,7 @@ The following deliberately resets on reload:
 - active overlay and desktop reveal;
 - selected desktop file, Finder section/search/selection, and selected note;
 - selected Settings section and simulated Settings panel toggles;
-- Messages sent state and Terminal history.
+- Messages search, selection, drafts, sent replies, and Terminal history.
 
 Closing and reopening an app resets state local to that app's mounted content. Finder and Notes provider state remains because their providers live above the window content.
 

@@ -64,7 +64,7 @@ WindowManagerProvider
 | `NotesProvider` | Selected note and completed Today tasks | Completed tasks persist; selection is session-only |
 | `DesktopCompositionContainer` | Selected System Settings section | Session only, survives closing the Settings window |
 | `SettingsProvider` | Accent-picker disclosure and simulated panel toggles | Local to the mounted Settings content |
-| Feature containers/components | Search text, selected item, Terminal lines, Messages send state, popovers | Local to the mounted feature |
+| Feature containers/components | Search text, selected item, Terminal lines, Messages conversation state, popovers | Local to the mounted feature |
 
 Opening an already-open application restores and focuses the same window. Minimizing keeps its content mounted, so local state survives. Closing removes the window; reopening mounts fresh feature-local state. Provider-owned Finder and Notes state survives closing their windows because those providers live above application content.
 
@@ -125,7 +125,7 @@ Containers coordinate a meaningful workflow; using state alone does not make a c
 
 - `FinderContainer` coordinates search, selection, popovers, preferences, clipboard, and app opening.
 - `TerminalContainer` coordinates input and command history with the pure command executor.
-- `MessagesContainer` owns the simulated send state.
+- `MessagesContainer` owns conversation search and selection, the current draft, and sent replies grouped by contact.
 - `SettingsContainer` scopes a Settings provider around Settings content.
 
 Leaf components may keep ephemeral state that affects only themselves. Promote it only when siblings, system surfaces, persistence, or cross-feature workflows need it.

@@ -94,7 +94,7 @@ Use a clean server/browser session for final verification.
 
 - Finder: every section, search, selection, all views, sidebar, preview, status bar, icon size, share, copy link, and outside-menu dismissal.
 - Safari: navigation anchors, scrolling, project content, and responsive work grid.
-- Messages: conversation layout, composer submit, and local sent bubble.
+- Messages: conversation layout, contact search/switching, empty composer submit, typed composer submit, and per-contact local sent bubbles.
 - Photos: gallery and responsive overflow/layout.
 - Notes: note selection and Today task toggles from both Notes and desktop widget.
 - Terminal: all supported commands, unknown command, empty input, `date`, `clear`, and focus behavior.
