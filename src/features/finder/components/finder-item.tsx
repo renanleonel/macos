@@ -1,6 +1,11 @@
 import { FinderEntryIcon } from '@/features/finder/components/finder-entry-icon';
 import { FinderEntryKind } from '@/features/finder/domain/enums/finder-entry-kind';
 import type { FinderEntry } from '@/features/finder/domain/models/finder-entry';
+import {
+  FINDER_ENTRY_CREATED_AT,
+  finderEntryKindLabel,
+  finderEntrySize,
+} from '@/features/finder/domain/selectors/finder-entry-metadata';
 import { AppIcon } from '@/shared/components/app-icon';
 import { cn } from '@/shared/utils/cn';
 
@@ -21,12 +26,7 @@ export function FinderItem({
   onSelect,
   onOpen,
 }: FinderItemProps) {
-  const kindLabel =
-    item.kind === FinderEntryKind.FOLDER
-      ? 'Folder'
-      : item.kind === FinderEntryKind.APPLICATION
-        ? 'Application'
-        : 'Document';
+  const kindLabel = finderEntryKindLabel(item);
 
   return (
     <button
@@ -38,7 +38,7 @@ export function FinderItem({
         '[&.finder-item:focus_>_span:nth-child(2)]:text-[white] [&.finder-item:focus_>_span:nth-child(2)]:[background:var(--system-blue-deep)]',
         '[&.finder-item.is-selected_>_span:nth-child(2)]:text-[white] [&.finder-item.is-selected_>_span:nth-child(2)]:[background:var(--system-blue-deep)]',
         '[.finder-files--list_&.finder-item]:[--finder-icon-size:20px] [.finder-files--list_&.finder-item]:w-full [.finder-files--list_&.finder-item]:h-8.5 [.finder-files--list_&.finder-item]:grid [.finder-files--list_&.finder-item]:grid-cols-[28px_minmax(120px,1fr)_minmax(240px,0.85fr)] [.finder-files--list_&.finder-item]:gap-2 [.finder-files--list_&.finder-item]:p-[0_8px] [.finder-files--list_&.finder-item]:rounded-[5px] [.finder-files--list_&.finder-item]:text-left',
-        '[.finder-files--list_&.finder-item:nth-child(even)]:[background:oklch(0.94_0.005_250/0.62)]',
+        '[.finder-files--list_&.finder-item:nth-child(even):not(.is-selected)]:[background:oklch(0.94_0.005_250/0.62)]',
         '[.finder-files--list_&.finder-item.is-selected]:text-[white] [.finder-files--list_&.finder-item.is-selected]:[background:var(--system-blue-deep)]',
         '[.finder-files--list_&.finder-item.is-selected_.finder-item\\_\\_metadata]:text-[oklch(1_0_0/0.78)]',
         '[.finder-files--list_&.finder-item.is-selected_>_span:nth-child(2)]:[background:transparent]',
@@ -102,8 +102,8 @@ export function FinderItem({
         )}
       >
         <span>{kindLabel}</span>
-        <span>Today, 10:09 AM</span>
-        <span>{item.kind === FinderEntryKind.FOLDER ? '—' : '12 KB'}</span>
+        <span>{FINDER_ENTRY_CREATED_AT}</span>
+        <span>{finderEntrySize(item)}</span>
       </span>
     </button>
   );

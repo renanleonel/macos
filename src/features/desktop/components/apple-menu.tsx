@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SystemMenu } from '@/features/desktop/components/system-menu';
 import { AppId } from '@/shared/domain/enums/app-id';
+import { PROFILE } from '@/shared/domain/constants/profile';
 
 type AppleMenuProps = {
   openApp: (app: AppId) => void;
@@ -49,13 +50,16 @@ export function AppleMenu({
           aria-label='Recent Items'
         >
           <button type='button' role='menuitem' onClick={() => openApp(AppId.SAFARI)}>
-            Project Aurora
+            open source
+          </button>
+          <button type='button' role='menuitem' onClick={() => openApp(AppId.PREVIEW)}>
+            resume.pdf
           </button>
           <button type='button' role='menuitem' onClick={() => openApp(AppId.NOTES)}>
-            Read Me.txt
+            read me.txt
           </button>
           <button type='button' role='menuitem' onClick={() => openApp(AppId.ABOUT)}>
-            About Me.md
+            about me.md
           </button>
         </div>
       ) : null}
@@ -71,7 +75,7 @@ export function AppleMenu({
         Lock Screen
       </button>
       <button type='button' onClick={lock}>
-        {'Log Out Renan…'}
+        {`Log Out ${PROFILE.firstName}…`}
       </button>
       <hr />
       <button type='button' onClick={restart}>

@@ -10,7 +10,7 @@ export const BIRTHDAY_EVENT: CalendarEvent = {
 };
 
 export const DEFAULT_CALENDAR_EVENT: CalendarEvent = {
-  title: 'Design review — Portfolio',
-  detail: '10:00 AM · Notes',
+  title: 'Study',
+  detail: '10:00 AM',
   isBirthday: false,
 };

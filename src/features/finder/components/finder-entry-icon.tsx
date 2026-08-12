@@ -1,4 +1,13 @@
-import { FileCode2, FileText, Folder, Images, Mail, SquareTerminal, UserRound } from 'lucide-react';
+import {
+  Compass,
+  FileCode2,
+  FileText,
+  Folder,
+  Images,
+  Mail,
+  SquareTerminal,
+  UserRound,
+} from 'lucide-react';
 
 import { FinderEntryGlyph } from '@/features/finder/domain/enums/finder-entry-glyph';
 
@@ -22,5 +31,7 @@ export function FinderEntryIcon({ glyph }: FinderEntryIconProps) {
       return <Mail />;
     case FinderEntryGlyph.FOLDER:
       return <Folder />;
+    case FinderEntryGlyph.WEB:
+      return <Compass />;
   }
 }

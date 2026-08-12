@@ -3,8 +3,8 @@ import type { CSSProperties } from 'react';
 
 import { FinderItem } from '@/features/finder/components/finder-item';
 import { FinderSection } from '@/features/finder/domain/enums/finder-section';
-import type { FinderEntry } from '@/features/finder/domain/models/finder-entry';
 import { FinderView } from '@/features/finder/domain/enums/finder-view';
+import type { FinderEntry } from '@/features/finder/domain/models/finder-entry';
 import type { AppId } from '@/shared/domain/enums/app-id';
 import { cn } from '@/shared/utils/cn';
 
@@ -46,8 +46,7 @@ export function FinderFiles({
       aria-live='polite'
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) onClearSelection();
-      }}
-    >
+      }}>
       {items.map((item) => (
         <FinderItem
           key={`${section}-${item.name}`}
@@ -66,8 +65,7 @@ export function FinderFiles({
             '[&.finder-empty]:w-full [&.finder-empty]:min-h-45 [&.finder-empty]:flex [&.finder-empty]:flex-col [&.finder-empty]:items-center [&.finder-empty]:justify-center [&.finder-empty]:gap-1.25 [&.finder-empty]:text-(--muted) [&.finder-empty]:text-center',
             '[&.finder-empty_strong]:text-inherit [&.finder-empty_strong]:text-[13px]',
             '[&.finder-empty_span]:text-[11px]',
-          )}
-        >
+          )}>
           <Search size={26} />
           <strong>No results</strong>
           <span>

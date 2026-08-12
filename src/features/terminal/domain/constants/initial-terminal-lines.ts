@@ -1,4 +1,6 @@
+import { PROFILE } from '@/shared/domain/constants/profile';
+
 export const INITIAL_TERMINAL_LINES = [
-  'Last login: Fri Jul 17 10:09:42 on ttys001',
-  'Welcome to Renan’s portfolio. Type “help” to explore.',
+  'Last login: Fri Aug 12 09:41:07 on ttys001',
+  `Welcome to ${PROFILE.firstName}'s desktop. Type "help" to explore.`,
 ];

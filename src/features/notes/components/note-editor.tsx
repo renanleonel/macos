@@ -1,6 +1,5 @@
 import { cn } from '@/shared/utils/cn';
 import { TODAY_TASKS } from '@/features/notes/domain/constants/today-tasks';
-import { NoteId } from '@/features/notes/domain/enums/note-id';
 import type { TodayTaskId } from '@/features/notes/domain/enums/today-task-id';
 import type { Note } from '@/features/notes/domain/models/note';
 
@@ -32,38 +31,29 @@ export function NoteEditor({ note, completedTasks, onToggleTask }: NoteEditorPro
       <h1>{note.editorTitle}</h1>
       <p>{note.intro}</p>
       <h2>{note.sectionTitle}</h2>
-      {note.id === NoteId.NOW ? (
-        <ul
-          className={cn(
-            'note-task-list',
-            '[&.note-task-list_input]:flex-[0_0_auto] [&.note-task-list_input]:m-0 [&.note-task-list_input]:accent-(--system-blue)',
-            '[&.note-task-list_li.is-complete_span]:text-[oklch(0.52_0.01_250)] [&.note-task-list_li.is-complete_span]:[text-decoration:line-through]',
-            '[&.note-task-list]:[list-style:none]',
-            '[&.note-task-list_li]:m-[7px_0]',
-            '[&.note-task-list_label]:flex [&.note-task-list_label]:items-center [&.note-task-list_label]:gap-2.25',
-          )}
-        >
-          {TODAY_TASKS.map((task) => (
-            <li className={cn(completed.has(task.id) ? 'is-complete' : '')} key={task.id}>
-              <label>
-                <input
-                  type='checkbox'
-                  checked={completed.has(task.id)}
-                  onChange={() => onToggleTask(task.id)}
-                />
-                <span>{task.label}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <ul>
-          {note.bullets.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      )}
-      <blockquote>{note.quote}</blockquote>
+      <ul
+        className={cn(
+          'note-task-list',
+          '[&.note-task-list_input]:flex-[0_0_auto] [&.note-task-list_input]:m-0 [&.note-task-list_input]:accent-(--system-blue)',
+          '[&.note-task-list_li.is-complete_span]:text-[oklch(0.52_0.01_250)] [&.note-task-list_li.is-complete_span]:[text-decoration:line-through]',
+          '[&.note-task-list]:[list-style:none]',
+          '[&.note-task-list_li]:m-[7px_0]',
+          '[&.note-task-list_label]:flex [&.note-task-list_label]:items-center [&.note-task-list_label]:gap-2.25',
+        )}
+      >
+        {TODAY_TASKS.map((task) => (
+          <li className={cn(completed.has(task.id) ? 'is-complete' : '')} key={task.id}>
+            <label>
+              <input
+                type='checkbox'
+                checked={completed.has(task.id)}
+                onChange={() => onToggleTask(task.id)}
+              />
+              <span>{task.detail}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
       <p>{note.closing}</p>
     </article>
   );

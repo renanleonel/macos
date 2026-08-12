@@ -10,6 +10,7 @@ import {
 import { FINDER_FAVORITES } from '@/features/finder/domain/constants/finder-favorites';
 import { FinderSection } from '@/features/finder/domain/enums/finder-section';
 import { cn } from '@/shared/utils/cn';
+import { PROFILE } from '@/shared/domain/constants/profile';
 
 type FinderSidebarProps = {
   section: FinderSection;
@@ -55,7 +56,7 @@ export function FinderSidebar({ section, onSelectSection }: FinderSidebarProps) 
       </span>
       <button type='button'>
         <BriefcaseBusiness size={16} />
-        Renan's Mac
+        {PROFILE.machineName}
       </button>
       <button type='button'>
         <CloudSun size={16} />

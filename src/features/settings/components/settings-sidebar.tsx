@@ -4,6 +4,7 @@ import { SettingsSectionIcon } from '@/features/settings/components/settings-sec
 import { SETTINGS_SECTIONS } from '@/features/settings/domain/constants/settings-sections';
 import type { SettingsSectionId } from '@/features/settings/domain/enums/settings-section-id';
 import { cn } from '@/shared/utils/cn';
+import { PROFILE } from '@/shared/domain/constants/profile';
 
 type SettingsSidebarProps = {
   selectedSection: SettingsSectionId;
@@ -22,11 +23,11 @@ export function SettingsSidebar({ selectedSection, selectSection }: SettingsSide
         )}
       >
         <span className='avatar [&.avatar]:w-9 [&.avatar]:h-9 [&.avatar]:flex-[0_0_36px] [&.avatar]:grid [&.avatar]:place-items-center [&.avatar]:rounded-[50%] [&.avatar]:text-[white] [&.avatar]:[background:linear-gradient(145deg,oklch(0.79_0.17_70),oklch(0.57_0.18_22))] [&.avatar]:font-bold'>
-          R
+          {PROFILE.initial}
         </span>
         <span>
-          <strong>Renan</strong>
-          <small>Portfolio profile</small>
+          <strong>{PROFILE.name}</strong>
+          <small>{PROFILE.role}</small>
         </span>
       </div>
       <nav>

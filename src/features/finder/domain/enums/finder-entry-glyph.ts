@@ -6,4 +6,5 @@ export enum FinderEntryGlyph {
   TERMINAL = 'terminal',
   MAIL = 'mail',
   FOLDER = 'folder',
+  WEB = 'web',
 }

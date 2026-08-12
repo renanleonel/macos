@@ -25,6 +25,11 @@ const PhotosContent = lazy(() =>
     default: PhotosContent,
   })),
 );
+const PreviewContent = lazy(() =>
+  import('@/features/preview/components/preview-content').then(({ PreviewContent }) => ({
+    default: PreviewContent,
+  })),
+);
 const SafariContent = lazy(() =>
   import('@/features/safari/components/safari-content').then(({ SafariContent }) => ({
     default: SafariContent,
@@ -73,7 +78,7 @@ export function AppContentContainer({
       content = <NotesContainer />;
       break;
     case AppId.TERMINAL:
-      content = <TerminalContainer />;
+      content = <TerminalContainer openApp={openApp} />;
       break;
     case AppId.SETTINGS:
       content = (
@@ -85,6 +90,9 @@ export function AppContentContainer({
       break;
     case AppId.ABOUT:
       content = <AboutContent />;
+      break;
+    case AppId.PREVIEW:
+      content = <PreviewContent />;
       break;
   }
 

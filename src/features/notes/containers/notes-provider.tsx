@@ -19,7 +19,7 @@ type NotesProviderProps = {
 };
 
 export function NotesProvider({ children }: NotesProviderProps) {
-  const [selectedNoteId, setSelectedNoteId] = useState<NoteId>(NoteId.WELCOME);
+  const [selectedNoteId, setSelectedNoteId] = useState<NoteId>(NoteId.GUIDE);
   const [completedTasks, setCompletedTasks] = useState<TodayTaskId[]>(readCompletedTasks);
   const completedTasksRef = useRef(completedTasks);
 

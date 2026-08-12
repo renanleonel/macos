@@ -1,6 +1,7 @@
 import { MessageCircle, Moon, Sparkles } from 'lucide-react';
 import { useClock } from '@/features/desktop/hooks/use-clock';
 import { cn } from '@/shared/utils/cn';
+import { PROFILE } from '@/shared/domain/constants/profile';
 type NotificationCenterProps = { doNotDisturb: boolean };
 const notificationClass =
   '[&.notification]:flex [&.notification]:gap-2.5 [&.notification]:mt-2.25 [&.notification]:p-3 [&.notification]:rounded-[15px] [&.notification]:[background:var(--glass-regular)] [&.notification]:[backdrop-filter:blur(38px)_saturate(1.45)] [&.notification]:[box-shadow:inset_0_0_0_1px_var(--glass-stroke),inset_0_1px_var(--glass-highlight),0_8px_20px_oklch(0.08_0.03_245/0.2)] [&.notification]:[-webkit-backdrop-filter:blur(38px)_saturate(1.45)] [&.notification_div]:relative [&.notification_div]:flex-1 [&.notification_small]:absolute [&.notification_small]:top-0 [&.notification_small]:right-0 [&.notification_small]:text-[oklch(0.5_0.01_250)] [&.notification_p]:m-[4px_0_0] [&.notification_p]:text-[12px] [&.notification_p]:leading-[1.35] [&.notification.is-silenced]:opacity-[0.64]';
@@ -43,9 +44,9 @@ export function NotificationCenter({ doNotDisturb }: NotificationCenterProps) {
           <Sparkles size={18} />
         </span>
         <div>
-          <strong>Portfolio</strong>
+          <strong>{PROFILE.site}</strong>
           <small>Now</small>
-          <p>Welcome. Double-click a file or choose an app from the Dock.</p>
+          <p>Welcome. Open Safari for my work, or resume.pdf in Finder.</p>
         </div>
       </div>
       <div className={cn(`notification${doNotDisturb ? ' is-silenced' : ''}`, notificationClass)}>
@@ -62,7 +63,7 @@ export function NotificationCenter({ doNotDisturb }: NotificationCenterProps) {
         <div>
           <strong>Messages</strong>
           <small>10m ago</small>
-          <p>There’s always room for another good idea.</p>
+          <p>Want to build something together? Say hello.</p>
         </div>
       </div>
     </aside>

@@ -2,96 +2,81 @@ import { FinderEntryGlyph } from '@/features/finder/domain/enums/finder-entry-gl
 import { FinderEntryKind } from '@/features/finder/domain/enums/finder-entry-kind';
 import { FinderSection } from '@/features/finder/domain/enums/finder-section';
 import type { FinderEntry } from '@/features/finder/domain/models/finder-entry';
+import { APPLICATION_REGISTRY } from '@/shared/domain/constants/application-registry';
 import { AppId } from '@/shared/domain/enums/app-id';
+
+/**
+ * Only user files and folders are lowercase. Applications keep their proper
+ * names, taken from the registry so Finder can never disagree with the Dock.
+ */
+function application(id: AppId, glyph: FinderEntryGlyph): FinderEntry {
+  const metadata = APPLICATION_REGISTRY[id];
+  return {
+    name: metadata.dockLabel ?? metadata.label,
+    kind: FinderEntryKind.APPLICATION,
+    glyph,
+    app: id,
+  };
+}
 
 export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
   [FinderSection.RECENTS]: [
     {
-      name: 'About Me.md',
+      name: 'about me.md',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.USER,
       app: AppId.ABOUT,
     },
     {
-      name: 'Résumé.pdf',
+      name: 'resume.pdf',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
-      app: AppId.NOTES,
+      app: AppId.PREVIEW,
     },
     {
-      name: 'Project Aurora',
-      kind: FinderEntryKind.FOLDER,
-      glyph: FinderEntryGlyph.CODE,
+      name: 'open source',
+      kind: FinderEntryKind.DOCUMENT,
+      glyph: FinderEntryGlyph.WEB,
       app: AppId.SAFARI,
     },
   ],
   [FinderSection.ABOUT_ME]: [
     {
-      name: 'About Me.md',
+      name: 'about me.md',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.USER,
       app: AppId.ABOUT,
     },
     {
-      name: 'Résumé.pdf',
+      name: 'resume.pdf',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
-      app: AppId.NOTES,
+      app: AppId.PREVIEW,
     },
     {
-      name: 'Contact.mail',
+      name: 'contact.vcf',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.MAIL,
       app: AppId.MESSAGES,
     },
   ],
   [FinderSection.APPLICATIONS]: [
-    {
-      name: 'Safari',
-      kind: FinderEntryKind.APPLICATION,
-      glyph: FinderEntryGlyph.CODE,
-      app: AppId.SAFARI,
-    },
-    {
-      name: 'Messages',
-      kind: FinderEntryKind.APPLICATION,
-      glyph: FinderEntryGlyph.MAIL,
-      app: AppId.MESSAGES,
-    },
-    {
-      name: 'Photos',
-      kind: FinderEntryKind.APPLICATION,
-      glyph: FinderEntryGlyph.IMAGES,
-      app: AppId.PHOTOS,
-    },
-    {
-      name: 'Notes',
-      kind: FinderEntryKind.APPLICATION,
-      glyph: FinderEntryGlyph.TEXT,
-      app: AppId.NOTES,
-    },
-    {
-      name: 'Terminal',
-      kind: FinderEntryKind.APPLICATION,
-      glyph: FinderEntryGlyph.TERMINAL,
-      app: AppId.TERMINAL,
-    },
-    {
-      name: 'System Settings',
-      kind: FinderEntryKind.APPLICATION,
-      glyph: FinderEntryGlyph.FOLDER,
-      app: AppId.SETTINGS,
-    },
+    application(AppId.SAFARI, FinderEntryGlyph.CODE),
+    application(AppId.MESSAGES, FinderEntryGlyph.MAIL),
+    application(AppId.PHOTOS, FinderEntryGlyph.IMAGES),
+    application(AppId.NOTES, FinderEntryGlyph.TEXT),
+    application(AppId.TERMINAL, FinderEntryGlyph.TERMINAL),
+    application(AppId.SETTINGS, FinderEntryGlyph.FOLDER),
   ],
   [FinderSection.DESKTOP]: [
     {
-      name: 'Selected Work',
+      name: 'screenshots',
       kind: FinderEntryKind.FOLDER,
       glyph: FinderEntryGlyph.IMAGES,
       app: AppId.PHOTOS,
     },
     {
-      name: 'Read Me.txt',
+      name: 'read me.txt',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
       app: AppId.NOTES,
@@ -99,31 +84,31 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
   ],
   [FinderSection.PORTFOLIO]: [
     {
-      name: 'About Me.md',
+      name: 'about me.md',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.USER,
       app: AppId.ABOUT,
     },
     {
-      name: 'Projects',
-      kind: FinderEntryKind.FOLDER,
-      glyph: FinderEntryGlyph.CODE,
+      name: 'projects',
+      kind: FinderEntryKind.DOCUMENT,
+      glyph: FinderEntryGlyph.WEB,
       app: AppId.SAFARI,
     },
     {
-      name: 'Résumé.pdf',
+      name: 'resume.pdf',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
-      app: AppId.NOTES,
+      app: AppId.PREVIEW,
     },
     {
-      name: 'Snapshots',
+      name: 'snapshots',
       kind: FinderEntryKind.FOLDER,
       glyph: FinderEntryGlyph.IMAGES,
       app: AppId.PHOTOS,
     },
     {
-      name: 'Now.sh',
+      name: 'now.sh',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TERMINAL,
       app: AppId.TERMINAL,
@@ -131,13 +116,13 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
   ],
   [FinderSection.DOWNLOADS]: [
     {
-      name: 'Résumé.pdf',
+      name: 'resume.pdf',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
-      app: AppId.NOTES,
+      app: AppId.PREVIEW,
     },
     {
-      name: 'Selected Work',
+      name: 'screenshots',
       kind: FinderEntryKind.FOLDER,
       glyph: FinderEntryGlyph.IMAGES,
       app: AppId.PHOTOS,
@@ -145,28 +130,28 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
   ],
   [FinderSection.ICLOUD_DRIVE]: [
     {
-      name: 'Portfolio',
-      kind: FinderEntryKind.FOLDER,
-      glyph: FinderEntryGlyph.FOLDER,
+      name: 'portfolio',
+      kind: FinderEntryKind.DOCUMENT,
+      glyph: FinderEntryGlyph.WEB,
       app: AppId.SAFARI,
     },
-    { name: 'Notes', kind: FinderEntryKind.FOLDER, glyph: FinderEntryGlyph.TEXT, app: AppId.NOTES },
+    { name: 'notes', kind: FinderEntryKind.FOLDER, glyph: FinderEntryGlyph.TEXT, app: AppId.NOTES },
   ],
   [FinderSection.TRASH]: [
     {
-      name: 'Archive Projects',
+      name: 'old portfolio',
       kind: FinderEntryKind.FOLDER,
       glyph: FinderEntryGlyph.FOLDER,
       app: AppId.PHOTOS,
     },
     {
-      name: 'Draft Notes.txt',
+      name: 'draft post.md',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
       app: AppId.NOTES,
     },
     {
-      name: 'Old Resume.pdf',
+      name: 'resume 2024.pdf',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
       app: AppId.ABOUT,

@@ -1,6 +1,7 @@
 import type { FormEvent, RefObject } from 'react';
 
 import { cn } from '@/shared/utils/cn';
+import { PROFILE } from '@/shared/domain/constants/profile';
 
 type TerminalContentProps = {
   lines: string[];
@@ -33,12 +34,16 @@ export function TerminalContent({
       onPointerDown={onFocusRequest}
       onClick={onFocusRequest}
     >
+      {/* `pre-wrap` keeps the column alignment in multi-field output such as
+          `contact` and `experience`, while still wrapping narrow windows. */}
       {lines.map((line, index) => (
-        <div key={`${line}-${index}`}>{line}</div>
+        <div className='whitespace-pre-wrap' key={`${line}-${index}`}>
+          {line}
+        </div>
       ))}
       <form onSubmit={onSubmit}>
         <span>
-          <b>renan@portfolio</b> ~ %
+          <b>{`${PROFILE.shellUser}@${PROFILE.shellHost}`}</b> ~ %
         </span>
         <input
           ref={inputRef}
