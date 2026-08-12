@@ -4,6 +4,7 @@ import type {
   SettingsPanel,
   SettingsPanelSectionId,
 } from '@/features/settings/domain/models/settings-panel';
+import { PROFILE } from '@/shared/domain/constants/profile';
 
 export const SETTINGS_PANEL_COPY: Record<SettingsPanelSectionId, SettingsPanel> = {
   [SettingsSectionId.WIFI]: {
@@ -29,7 +30,7 @@ export const SETTINGS_PANEL_COPY: Record<SettingsPanelSectionId, SettingsPanel> 
       {
         id: SettingsControlId.BLUETOOTH_ENABLED,
         title: 'Bluetooth',
-        detail: "This Mac is discoverable as Renan's Mac.",
+        detail: `This Mac is discoverable as ${PROFILE.machineName}.`,
         defaultChecked: true,
       },
       {

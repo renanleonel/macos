@@ -7,4 +7,5 @@ export enum AppId {
   TERMINAL = 'terminal',
   SETTINGS = 'settings',
   ABOUT = 'about',
+  PREVIEW = 'preview',
 }

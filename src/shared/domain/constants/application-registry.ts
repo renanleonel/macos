@@ -1,4 +1,5 @@
 import { AppId } from '@/shared/domain/enums/app-id';
+import { PROFILE } from '@/shared/domain/constants/profile';
 import type { ApplicationMetadata } from '@/shared/domain/models/application-metadata';
 
 export const APPLICATION_REGISTRY: Record<AppId, ApplicationMetadata> = {
@@ -44,7 +45,7 @@ export const APPLICATION_REGISTRY: Record<AppId, ApplicationMetadata> = {
   },
   [AppId.TERMINAL]: {
     label: 'Terminal',
-    title: 'renan — zsh',
+    title: `${PROFILE.shellUser} — zsh`,
     width: 760,
     height: 500,
     x: 390,
@@ -59,13 +60,21 @@ export const APPLICATION_REGISTRY: Record<AppId, ApplicationMetadata> = {
     x: 310,
     y: 105,
   },
+  [AppId.PREVIEW]: {
+    label: 'Preview',
+    title: PROFILE.resumeFileName,
+    width: 720,
+    height: 700,
+    x: 420,
+    y: 70,
+  },
   [AppId.ABOUT]: {
     label: 'About Me',
     menuBarLabel: 'Finder',
     title: 'About This Mac',
-    width: 510,
-    height: 480,
-    x: 500,
-    y: 170,
+    width: 560,
+    height: 545,
+    x: 470,
+    y: 120,
   },
 };

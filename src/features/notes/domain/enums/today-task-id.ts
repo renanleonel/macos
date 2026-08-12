@@ -1,5 +1,7 @@
 export enum TodayTaskId {
-  DETAILS = 'details',
-  SHIP = 'ship',
-  REPLY = 'reply',
+  SAFARI = 'safari',
+  RESUME = 'resume',
+  TERMINAL = 'terminal',
+  ABOUT = 'about',
+  EMAIL = 'email',
 }

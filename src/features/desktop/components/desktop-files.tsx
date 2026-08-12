@@ -18,7 +18,7 @@ export function DesktopFiles({ openApp, selectedFile, onSelectFile }: DesktopFil
     >
       <DraggableDesktopFile
         id={DesktopFileId.SELECTED_WORK}
-        label='Selected Work'
+        label='screenshots'
         top={8}
         selected={selectedFile === DesktopFileId.SELECTED_WORK}
         onSelect={onSelectFile}
@@ -30,7 +30,7 @@ export function DesktopFiles({ openApp, selectedFile, onSelectFile }: DesktopFil
       </DraggableDesktopFile>
       <DraggableDesktopFile
         id={DesktopFileId.READ_ME}
-        label='Read Me.txt'
+        label='read me.txt'
         top={96}
         selected={selectedFile === DesktopFileId.READ_ME}
         onSelect={onSelectFile}

@@ -4,8 +4,13 @@ import { scheduleInputFocus } from '@/features/terminal/adapters/schedule-input-
 import { TerminalContent } from '@/features/terminal/components/terminal-content';
 import { INITIAL_TERMINAL_LINES } from '@/features/terminal/domain/constants/initial-terminal-lines';
 import { executeTerminalCommand } from '@/features/terminal/domain/execute-terminal-command';
+import type { AppId } from '@/shared/domain/enums/app-id';
 
-export function TerminalContainer() {
+type TerminalContainerProps = {
+  openApp: (app: AppId) => void;
+};
+
+export function TerminalContainer({ openApp }: TerminalContainerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [lines, setLines] = useState<string[]>(INITIAL_TERMINAL_LINES);
   const [command, setCommand] = useState('');
@@ -23,6 +28,7 @@ export function TerminalContainer() {
     if (execution.clearLines) setLines([]);
     else setLines((currentLines) => [...currentLines, ...execution.linesToAppend]);
     setCommand(execution.command);
+    if (execution.appToOpen) openApp(execution.appToOpen);
     scheduleInputFocus(() => inputRef.current);
   };
 

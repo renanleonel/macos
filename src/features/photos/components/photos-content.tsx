@@ -45,7 +45,7 @@ export function PhotosContent() {
         >
           <div>
             <h1>Library</h1>
-            <p>Placeholder visual work · 8 items</p>
+            <p>Interface studies · 8 items</p>
           </div>
           <button type='button'>
             Years&nbsp;&nbsp; Months&nbsp;&nbsp; Days&nbsp;&nbsp; <strong>All Photos</strong>

@@ -1,5 +1,6 @@
 import { useClock } from '@/features/desktop/hooks/use-clock';
 import { cn } from '@/shared/utils/cn';
+import { PROFILE } from '@/shared/domain/constants/profile';
 type LoginScreenProps = { enter: () => void };
 export function LoginScreen({ enter }: LoginScreenProps) {
   const now = useClock();
@@ -35,9 +36,9 @@ export function LoginScreen({ enter }: LoginScreenProps) {
         )}
       >
         <span className='login-avatar [&.login-avatar]:w-24 [&.login-avatar]:h-24 [&.login-avatar]:grid [&.login-avatar]:place-items-center [&.login-avatar]:mb-2.5 [&.login-avatar]:rounded-[50%] [&.login-avatar]:text-[white] [&.login-avatar]:[background:linear-gradient(145deg,oklch(0.75_0.17_70),oklch(0.48_0.18_245))] [&.login-avatar]:[box-shadow:inset_0_0_0_1px_oklch(1_0_0/0.45),0_9px_28px_oklch(0.08_0.03_245/0.25)] [&.login-avatar]:text-[34px] [&.login-avatar]:font-[650]'>
-          R
+          {PROFILE.initial}
         </span>
-        <strong>Renan</strong>
+        <strong>{PROFILE.firstName}</strong>
         <small>Click to log in</small>
       </div>
     </button>

@@ -32,6 +32,7 @@ export function FinderContainer({ openApp }: FinderContainerProps) {
     return sectionItems.filter((item) => item.name.toLocaleLowerCase().includes(normalized));
   })();
   const canResizeIcons = preferences.view === FinderView.ICONS;
+  const selectedEntry = filteredItems.find((item) => item.name === selectedItem) ?? null;
 
   useEffect(() => {
     if (!toolbarMenu) return;
@@ -101,7 +102,7 @@ export function FinderContainer({ openApp }: FinderContainerProps) {
             onClearSelection={() => setSelectedItem(null)}
             onOpenApp={openApp}
           />
-          {preferences.showPreview ? <FinderPreview /> : null}
+          {preferences.showPreview ? <FinderPreview entry={selectedEntry} /> : null}
         </div>
         {preferences.showStatusBar ? (
           <FinderStatusBar

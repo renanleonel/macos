@@ -9,7 +9,5 @@ export type Note = {
   updated: string;
   intro: string;
   sectionTitle: string;
-  bullets: readonly string[];
-  quote: string;
   closing: string;
 };
