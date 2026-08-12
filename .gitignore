@@ -2,6 +2,7 @@ node_modules/
 dist/
 .playwright-cli/
 *.png
+!public/og-image.png
 *.log
 
 .agents
