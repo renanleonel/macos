@@ -1,10 +1,7 @@
 import {
   Compass,
-  Grid2X2,
-  Mail,
   MessageCircle,
   Settings,
-  SquareTerminal,
   Trash2,
   UserRound,
   type LucideProps,
@@ -12,8 +9,11 @@ import {
 import type { ComponentType, CSSProperties } from 'react';
 
 import { FilesAppGlyph } from '@/shared/components/files-app-glyph';
+import { LaunchpadAppGlyph } from '@/shared/components/launchpad-app-glyph';
+import { MailAppGlyph } from '@/shared/components/mail-app-glyph';
 import { NotesAppGlyph } from '@/shared/components/notes-app-glyph';
 import { PhotosAppGlyph } from '@/shared/components/photos-app-glyph';
+import { TerminalAppGlyph } from '@/shared/components/terminal-app-glyph';
 import { AppId } from '@/shared/domain/enums/app-id';
 import { DockUtilityId } from '@/shared/domain/enums/dock-utility-id';
 import type { DockId } from '@/shared/domain/models/dock-id';
@@ -26,13 +26,13 @@ type AppIconProps = {
 
 const APP_ICON_COMPONENTS: Record<DockId, ComponentType<LucideProps>> = {
   [AppId.FINDER]: FilesAppGlyph,
-  [DockUtilityId.LAUNCHPAD]: Grid2X2,
+  [DockUtilityId.LAUNCHPAD]: LaunchpadAppGlyph,
   [AppId.SAFARI]: Compass,
   [AppId.MESSAGES]: MessageCircle,
-  [DockUtilityId.MAIL]: Mail,
+  [DockUtilityId.MAIL]: MailAppGlyph,
   [AppId.PHOTOS]: PhotosAppGlyph,
   [AppId.NOTES]: NotesAppGlyph,
-  [AppId.TERMINAL]: SquareTerminal,
+  [AppId.TERMINAL]: TerminalAppGlyph,
   [AppId.SETTINGS]: Settings,
   [DockUtilityId.TRASH]: Trash2,
   [AppId.ABOUT]: UserRound,
@@ -50,10 +50,10 @@ export function AppIcon({ app, size = 48 }: AppIconProps) {
         "[&.app-icon::after]:[content:''] [&.app-icon::after]:absolute [&.app-icon::after]:z-1 [&.app-icon::after]:inset-[54%_4px_3px] [&.app-icon::after]:rounded-[0_0_calc(var(--icon-size)*0.18)_calc(var(--icon-size)*0.18)] [&.app-icon::after]:[background:linear-gradient(180deg,transparent,oklch(0.08_0.03_250/0.12))] [&.app-icon::after]:pointer-events-none",
         '[&.app-icon_svg]:relative [&.app-icon_svg]:z-2 [&.app-icon_svg]:filter-[drop-shadow(0_1px_1px_oklch(0.08_0.02_250/0.12))]',
         '[&.app-icon.app-icon--finder]:[background:linear-gradient(145deg,#2c9bd8,#4663c5)]',
-        '[&.app-icon.app-icon--launchpad]:[background:linear-gradient(145deg,#86909c,#4d5868)]',
+        '[&.app-icon.app-icon--launchpad]:[background:linear-gradient(145deg,#f2f4f7,#c8ced8)]',
         '[&.app-icon.app-icon--safari]:[background:linear-gradient(145deg,#37b7ad,#2365a8)]',
         '[&.app-icon.app-icon--messages]:[background:linear-gradient(145deg,#56b876,#2f8557)]',
-        '[&.app-icon.app-icon--mail]:[background:linear-gradient(145deg,#568be7,#5d51be)]',
+        '[&.app-icon.app-icon--mail]:text-[#4a63c8] [&.app-icon.app-icon--mail]:[background:linear-gradient(145deg,#568be7,#5d51be)]',
         '[&.app-icon.app-icon--photos]:text-[#b8456e] [&.app-icon.app-icon--photos]:[background:linear-gradient(145deg,#ffd176,#ef759c)]',
         '[&.app-icon.app-icon--notes]:text-[#654a16] [&.app-icon.app-icon--notes]:[background:linear-gradient(145deg,#ffdb69,#d8aa36)]',
         '[&.app-icon.app-icon--terminal]:text-[#8be3ad] [&.app-icon.app-icon--terminal]:[background:linear-gradient(145deg,#303a43,#12181e)]',

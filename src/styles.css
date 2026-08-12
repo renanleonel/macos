@@ -4,6 +4,13 @@
   background: oklch(0.36 0.09 231) url('/wallpaper-tahoe-day.jpg') center / cover no-repeat;
 }
 
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+}
+
 @keyframes window-open {
   from {
     opacity: 0;

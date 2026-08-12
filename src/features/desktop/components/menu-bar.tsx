@@ -40,16 +40,19 @@ export function MenuBar({
     <header
       className={cn(
         'menu-bar',
-        '[&.menu-bar]:fixed [&.menu-bar]:inset-[0_0_auto] [&.menu-bar]:z-700 [&.menu-bar]:h-7 [&.menu-bar]:flex [&.menu-bar]:items-stretch [&.menu-bar]:justify-between [&.menu-bar]:p-[0_8px] [&.menu-bar]:text-[oklch(0.13_0.02_248)] [&.menu-bar]:[background:linear-gradient(180deg,oklch(1_0_0/0.24),transparent_42%),var(--glass-clear)] [&.menu-bar]:[backdrop-filter:blur(26px)_saturate(1.65)] [&.menu-bar]:[border-bottom:1px_solid_oklch(1_0_0/0.12)] [&.menu-bar]:[box-shadow:inset_0_-1px_oklch(0.22_0.02_245/0.12),0_1px_8px_oklch(0.08_0.03_245/0.09)] [&.menu-bar]:text-[13px] [&.menu-bar]:[--control-center-knob:oklch(1_0_0/0.94)] [&.menu-bar]:px-1.75 [&.menu-bar]:border-b-[oklch(1_0_0/0.3)] [&.menu-bar]:[-webkit-backdrop-filter:blur(26px)_saturate(1.65)]',
+        // Tahoe's menu bar has no material at all — no fill, no blur, no divider.
+        // Legibility comes entirely from a soft shadow on the glyphs.
+        '[&.menu-bar]:fixed [&.menu-bar]:inset-[0_0_auto] [&.menu-bar]:z-700 [&.menu-bar]:h-7 [&.menu-bar]:flex [&.menu-bar]:items-stretch [&.menu-bar]:justify-between [&.menu-bar]:p-[0_8px] [&.menu-bar]:text-[oklch(0.13_0.02_248)] [&.menu-bar]:text-[13px] [&.menu-bar]:[--control-center-knob:oklch(1_0_0/0.94)] [&.menu-bar]:px-1.75 [&.menu-bar]:[text-shadow:0_0_8px_oklch(1_0_0/0.42),0_1px_1px_oklch(1_0_0/0.34)]',
         '[&.menu-bar_nav]:flex [&.menu-bar_nav]:items-stretch',
-        '[&.menu-bar_button]:h-7 [&.menu-bar_button]:p-[0_12px] [&.menu-bar_button]:[border:0] [&.menu-bar_button]:[background:transparent] [&.menu-bar_button]:rounded-[7px] [&.menu-bar_button]:cursor-default [&.menu-bar_button]:whitespace-nowrap',
-        '[&.menu-bar_button:hover]:[background:oklch(1_0_0/0.3)] [&.menu-bar_button:hover]:[box-shadow:inset_0_0_0_1px_oklch(1_0_0/0.16)]',
+        '[&.menu-bar_button]:h-7 [&.menu-bar_button]:p-[0_12px] [&.menu-bar_button]:[border:0] [&.menu-bar_button]:[background:transparent] [&.menu-bar_button]:rounded-[9px] [&.menu-bar_button]:cursor-default [&.menu-bar_button]:whitespace-nowrap [&.menu-bar_button]:[transition:background-color_160ms_var(--ease-mac),box-shadow_160ms_var(--ease-mac)]',
+        // Hovering a menu title materialises a small glass pill under it.
+        '[&.menu-bar_button:hover]:[background:oklch(1_0_0/0.26)] [&.menu-bar_button:hover]:[backdrop-filter:blur(16px)_saturate(1.3)] [&.menu-bar_button:hover]:[-webkit-backdrop-filter:blur(16px)_saturate(1.3)] [&.menu-bar_button:hover]:[box-shadow:inset_0_1px_oklch(1_0_0/0.7),inset_0_0_0_1px_oklch(1_0_0/0.22)]',
         '[&.menu-bar_.active-app-name]:font-bold [&.menu-bar_.active-app-name]:px-[9px_12px]',
         '[&.menu-bar_.menu-clock]:p-[0_4px_0_10px] [&.menu-bar_.menu-clock]:[font-variant-numeric:tabular-nums]',
         '[&.menu-bar_.battery-status]:[transition:color_180ms_ease-out,filter_180ms_ease-out]',
         '[&.menu-bar_.battery-status.is-low-power]:text-(--low-power-yellow) [&.menu-bar_.battery-status.is-low-power]:filter-[drop-shadow(0_0_4px_oklch(0.82_0.17_85/0.28))]',
-        "[&.menu-bar_button[aria-expanded='true']]:[background:oklch(1_0_0/0.3)] [&.menu-bar_button[aria-expanded='true']]:[box-shadow:inset_0_0_0_1px_oklch(1_0_0/0.16)]",
-        '[@media(prefers-reduced-transparency:_reduce)]:[&.menu-bar]:[backdrop-filter:none] [@media(prefers-reduced-transparency:_reduce)]:[&.menu-bar]:[-webkit-backdrop-filter:none] [@media(prefers-reduced-transparency:_reduce)]:[&.menu-bar]:[background:var(--window-background)]',
+        "[&.menu-bar_button[aria-expanded='true']]:[background:oklch(1_0_0/0.34)] [&.menu-bar_button[aria-expanded='true']]:[backdrop-filter:blur(16px)_saturate(1.3)] [&.menu-bar_button[aria-expanded='true']]:[-webkit-backdrop-filter:blur(16px)_saturate(1.3)] [&.menu-bar_button[aria-expanded='true']]:[box-shadow:inset_0_1px_oklch(1_0_0/0.8),inset_0_0_0_1px_oklch(1_0_0/0.28)]",
+        '[@media(prefers-reduced-transparency:_reduce)]:[&.menu-bar]:[text-shadow:none] [@media(prefers-reduced-transparency:_reduce)]:[&.menu-bar]:[background:var(--window-background)]',
       )}
       aria-label='macOS menu bar'
     >

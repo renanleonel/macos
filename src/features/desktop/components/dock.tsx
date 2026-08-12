@@ -7,6 +7,7 @@ import { AppId } from '@/shared/domain/enums/app-id';
 import { DockUtilityId } from '@/shared/domain/enums/dock-utility-id';
 import type { DockId } from '@/shared/domain/models/dock-id';
 import type { WindowState } from '@/features/window-manager/domain/models/window-state';
+import { GLASS_DOCK, GLASS_REDUCED_TRANSPARENCY } from '@/shared/domain/constants/liquid-glass';
 import { cn } from '@/shared/utils/cn';
 
 type DockProps = {
@@ -28,10 +29,10 @@ export function Dock({ windows, launch, size, showRecentApps }: DockProps) {
     <nav
       className={cn(
         'dock',
-        '[&.dock]:fixed [&.dock]:z-650 [&.dock]:left-[50%] [&.dock]:bottom-2.75 [&.dock]:h-[calc(var(--dock-size,50px)+16px)] [&.dock]:flex [&.dock]:items-end [&.dock]:gap-1.25 [&.dock]:p-[8px_10px] [&.dock]:rounded-[22px] [&.dock]:[background:linear-gradient(145deg,oklch(1_0_0/0.34),oklch(0.88_0.022_240/0.17)),var(--glass-clear)] [&.dock]:[backdrop-filter:blur(42px)_saturate(1.75)] [&.dock]:[box-shadow:inset_0_0_0_1px_var(--glass-stroke),inset_0_1px_var(--glass-highlight),inset_0_-1px_oklch(0.24_0.02_245/0.12),0_12px_30px_var(--glass-shadow),0_3px_8px_oklch(0.08_0.03_245/0.18)] [&.dock]:transform-[translateX(-50%)] [&.dock]:[transition:opacity_180ms_ease-out,transform_220ms_var(--ease-mac)] [&.dock]:[-webkit-backdrop-filter:blur(42px)_saturate(1.75)]',
-        "[&.dock::before]:[content:''] [&.dock::before]:absolute [&.dock::before]:inset-[1px_18px_auto] [&.dock::before]:h-px [&.dock::before]:rounded-[50%] [&.dock::before]:[background:linear-gradient(90deg,transparent,oklch(1_0_0/0.9),transparent)] [&.dock::before]:pointer-events-none",
+        GLASS_DOCK,
+        GLASS_REDUCED_TRANSPARENCY,
+        '[&.dock]:fixed [&.dock]:z-650 [&.dock]:left-[50%] [&.dock]:bottom-2.75 [&.dock]:h-[calc(var(--dock-size,50px)+16px)] [&.dock]:flex [&.dock]:items-end [&.dock]:gap-1.25 [&.dock]:p-[8px_10px] [&.dock]:transform-[translateX(-50%)] [&.dock]:[transition:opacity_180ms_ease-out,transform_220ms_var(--ease-mac)]',
         'contrast-more:[&.dock]:[outline:1px_solid_var(--separator)]',
-        '[@media(prefers-reduced-transparency:_reduce)]:[&.dock]:[backdrop-filter:none] [@media(prefers-reduced-transparency:_reduce)]:[&.dock]:[-webkit-backdrop-filter:none] [@media(prefers-reduced-transparency:_reduce)]:[&.dock]:[background:var(--window-background)]',
         'max-[900px]:[&.dock]:max-w-[calc(100vw-12px)] max-[900px]:[&.dock]:overflow-x-auto max-[900px]:[&.dock]:overflow-y-hidden max-[900px]:[&.dock]:scrollbar-none',
         'max-[900px]:[&.dock_.app-icon]:[--icon-size:44px]!',
       )}

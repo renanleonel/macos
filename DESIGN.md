@@ -18,7 +18,18 @@ Use the native Apple system stack (`-apple-system`, BlinkMacSystemFont, `SF Pro 
 
 ## Materials
 
-Menu bar, Dock, menus, widgets, and window sidebars use backdrop blur plus a thin inner highlight. Main application content stays more opaque for reading. Corners follow the reference: 16px windows, 14px widgets, and 20px Dock.
+Liquid Glass surfaces compose `GLASS_MENU`, `GLASS_DOCK`, or `GLASS_TILE` from `src/shared/domain/constants/liquid-glass.ts`. Each is a Tailwind class string pairing a lensing backdrop with a **directional** specular rim — brightest on the top edge where light enters, softer on the bottom where it exits, dimmest on the sides. That asymmetry is what separates glass from frosted plastic; a uniform `ring` reads flat. Each constant carries its own `.desktop--dark` variant, so dark appearance needs nothing added in `desktop-shell.tsx`.
+
+Two constraints are baked into how that file is written, and both are easy to undo by accident:
+
+- **The rim is stacked inset shadows, not a masked gradient border.** Tailwind emits each arbitrary property as a separate declaration and may order `mask-composite` before the `mask` shorthand, which resets it — leaving the gradient veiling the whole element instead of just its edge.
+- **Classes are spelled out literally**, never assembled from template literals, because Tailwind scans raw source text and will not generate a class it cannot see.
+
+Keep `saturate()` at or below ~1.3. Past that the wallpaper's colour drags through and every panel turns blue.
+
+The menu bar carries **no** material at all — Tahoe's has no fill, blur, or divider. Legibility comes entirely from a soft shadow on the glyphs. Menu titles materialise a glass pill only on hover or while open.
+
+Main application content stays more opaque for reading. Corners follow the reference: 16px windows, 14px widgets, and 24px Dock.
 
 ## Motion
 
