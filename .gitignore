@@ -7,3 +7,5 @@ dist/
 .agents
 .codex
 .claude
+.vercel
+.env*
