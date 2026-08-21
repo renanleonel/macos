@@ -60,14 +60,6 @@ export const APPLICATION_REGISTRY: Record<AppId, ApplicationMetadata> = {
     x: 310,
     y: 105,
   },
-  [AppId.PREVIEW]: {
-    label: 'Preview',
-    title: PROFILE.resumeFileName,
-    width: 720,
-    height: 700,
-    x: 420,
-    y: 70,
-  },
   [AppId.ABOUT]: {
     label: 'About Me',
     menuBarLabel: 'Finder',

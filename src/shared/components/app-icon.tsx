@@ -1,6 +1,5 @@
 import {
   Compass,
-  FileText,
   MessageCircle,
   Settings,
   Trash2,
@@ -37,7 +36,6 @@ const APP_ICON_COMPONENTS: Record<DockId, ComponentType<LucideProps>> = {
   [AppId.SETTINGS]: Settings,
   [DockUtilityId.TRASH]: Trash2,
   [AppId.ABOUT]: UserRound,
-  [AppId.PREVIEW]: FileText,
 };
 
 export function AppIcon({ app, size = 48 }: AppIconProps) {
@@ -62,7 +60,6 @@ export function AppIcon({ app, size = 48 }: AppIconProps) {
         '[&.app-icon.app-icon--settings]:[background:radial-gradient(circle_at_35%_28%,#9ba7b4,#515b68)]',
         '[&.app-icon.app-icon--trash]:text-[#52606d] [&.app-icon.app-icon--trash]:[background:linear-gradient(145deg,oklch(0.96_0.025_220/0.95),oklch(0.75_0.055_225/0.86))]',
         '[&.app-icon.app-icon--about]:[background:linear-gradient(145deg,#e59d4f,#a95863)]',
-        '[&.app-icon.app-icon--preview]:text-[#3b6bd6] [&.app-icon.app-icon--preview]:[background:linear-gradient(145deg,#fdfdfd,#d5dde8)]',
       )}
       style={{ '--icon-size': `${size}px` } as CSSProperties}
     >

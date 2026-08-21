@@ -1,8 +1,8 @@
-import { Check, Wifi } from 'lucide-react';
-import { useState } from 'react';
 import { SystemMenu } from '@/features/desktop/components/system-menu';
 import { SettingsSectionId } from '@/features/settings/domain/enums/settings-section-id';
 import { cn } from '@/shared/utils/cn';
+import { Check, Wifi } from 'lucide-react';
+import { useState } from 'react';
 
 type WifiMenuProps = { openSettings: (section: SettingsSectionId) => void };
 export function WifiMenu({ openSettings }: WifiMenuProps) {
@@ -13,13 +13,12 @@ export function WifiMenu({ openSettings }: WifiMenuProps) {
     <SystemMenu className='status-menu wifi-menu [&.status-menu]:w-65 [&.wifi-menu]:right-68'>
       <div
         className={cn(
-          'status-menu__heading',
+          'status-menu__heading flex items-center justify-between p-[6px_10px_5px]',
           '[&.status-menu\\_\\_heading]:min-h-10 [&.status-menu\\_\\_heading]:flex [&.status-menu\\_\\_heading]:items-center [&.status-menu\\_\\_heading]:justify-between [&.status-menu\\_\\_heading]:p-[6px_10px_5px]',
           '[&.status-menu\\_\\_heading_>_strong]:text-[15px] [&.status-menu\\_\\_heading_>_strong]:tracking-[-0.01em]',
           '[&.status-menu\\_\\_heading_>_span]:flex [&.status-menu\\_\\_heading_>_span]:flex-col',
           '[&.status-menu\\_\\_heading_small]:text-[oklch(0.49_0.01_250)] [&.status-menu\\_\\_heading_small]:text-[11px] [&.status-menu\\_\\_heading_small]:font-normal',
-        )}
-      >
+        )}>
         <strong>Wi-Fi</strong>
         <button
           type='button'
@@ -31,8 +30,7 @@ export function WifiMenu({ openSettings }: WifiMenuProps) {
             '[&.mac-switch.is-on_i]:transform-[translateX(16px)]',
           )}
           aria-label='Toggle Wi-Fi'
-          onClick={() => setEnabled(!enabled)}
-        >
+          onClick={() => setEnabled(!enabled)}>
           <i />
         </button>
       </div>
@@ -46,8 +44,7 @@ export function WifiMenu({ openSettings }: WifiMenuProps) {
           className='network-row'
           key={name}
           disabled={!enabled}
-          onClick={() => setNetwork(name)}
-        >
+          onClick={() => setNetwork(name)}>
           <Wifi size={15} />
           <span>{name}</span>
           {network === name ? (
@@ -64,8 +61,7 @@ export function WifiMenu({ openSettings }: WifiMenuProps) {
         type='button'
         aria-expanded={showOtherNetworks}
         aria-controls='other-networks'
-        onClick={() => setShowOtherNetworks((visible) => !visible)}
-      >
+        onClick={() => setShowOtherNetworks((visible) => !visible)}>
         Other Networks… <span>{showOtherNetworks ? '⌄' : '›'}</span>
       </button>
       {showOtherNetworks ? (
@@ -73,8 +69,7 @@ export function WifiMenu({ openSettings }: WifiMenuProps) {
           className='other-networks [&.other-networks]:m-[2px_0_4px] [&.other-networks]:p-1 [&.other-networks]:rounded-lg [&.other-networks]:[background:oklch(1_0_0/0.16)] [&.other-networks]:[box-shadow:inset_0_0_0_1px_oklch(1_0_0/0.24),inset_0_1px_3px_oklch(0.2_0.02_250/0.12)] [&.other-networks]:[backdrop-filter:blur(10px)_saturate(1.4)] [&.other-networks]:[-webkit-backdrop-filter:blur(10px)_saturate(1.4)] [&.other-networks]:animate-[other-networks-in_140ms_var(--ease-mac)_both] [&.other-networks_.network-row]:min-h-6.75'
           id='other-networks'
           role='region'
-          aria-label='Other Networks'
-        >
+          aria-label='Other Networks'>
           {['Coffee Shop Guest', 'Library Public', 'Phone Hotspot'].map((name, index) => (
             <button
               type='button'
@@ -84,8 +79,7 @@ export function WifiMenu({ openSettings }: WifiMenuProps) {
               onClick={() => {
                 setNetwork(name);
                 setShowOtherNetworks(false);
-              }}
-            >
+              }}>
               <Wifi size={15} />
               <span>{name}</span>
               {network === name ? (

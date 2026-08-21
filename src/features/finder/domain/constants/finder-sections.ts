@@ -28,12 +28,6 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
       app: AppId.ABOUT,
     },
     {
-      name: 'resume.pdf',
-      kind: FinderEntryKind.DOCUMENT,
-      glyph: FinderEntryGlyph.TEXT,
-      app: AppId.PREVIEW,
-    },
-    {
       name: 'open source',
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.WEB,
@@ -46,12 +40,6 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.USER,
       app: AppId.ABOUT,
-    },
-    {
-      name: 'resume.pdf',
-      kind: FinderEntryKind.DOCUMENT,
-      glyph: FinderEntryGlyph.TEXT,
-      app: AppId.PREVIEW,
     },
     {
       name: 'contact.vcf',
@@ -96,12 +84,6 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
       app: AppId.SAFARI,
     },
     {
-      name: 'resume.pdf',
-      kind: FinderEntryKind.DOCUMENT,
-      glyph: FinderEntryGlyph.TEXT,
-      app: AppId.PREVIEW,
-    },
-    {
       name: 'snapshots',
       kind: FinderEntryKind.FOLDER,
       glyph: FinderEntryGlyph.IMAGES,
@@ -115,12 +97,6 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
     },
   ],
   [FinderSection.DOWNLOADS]: [
-    {
-      name: 'resume.pdf',
-      kind: FinderEntryKind.DOCUMENT,
-      glyph: FinderEntryGlyph.TEXT,
-      app: AppId.PREVIEW,
-    },
     {
       name: 'screenshots',
       kind: FinderEntryKind.FOLDER,
@@ -149,12 +125,6 @@ export const FINDER_SECTIONS: Record<FinderSection, FinderEntry[]> = {
       kind: FinderEntryKind.DOCUMENT,
       glyph: FinderEntryGlyph.TEXT,
       app: AppId.NOTES,
-    },
-    {
-      name: 'resume 2024.pdf',
-      kind: FinderEntryKind.DOCUMENT,
-      glyph: FinderEntryGlyph.TEXT,
-      app: AppId.ABOUT,
     },
   ],
 };

@@ -8,9 +8,7 @@ import { AppId } from '@/shared/domain/enums/app-id';
  */
 export const TERMINAL_COMMAND_APPS: Partial<Record<TerminalCommand, AppId>> = {
   [TerminalCommand.ABOUT]: AppId.ABOUT,
-  [TerminalCommand.EXPERIENCE]: AppId.PREVIEW,
   [TerminalCommand.PROJECTS]: AppId.SAFARI,
-  [TerminalCommand.RESUME]: AppId.PREVIEW,
 };
 
 export function terminalCommandAppLabel(app: AppId) {

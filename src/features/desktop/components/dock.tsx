@@ -61,6 +61,11 @@ export function Dock({ windows, launch, size, showRecentApps }: DockProps) {
               "[&.dock-item--separated::before]:[content:''] [&.dock-item--separated::before]:absolute [&.dock-item--separated::before]:-left-2.25 [&.dock-item--separated::before]:top-0.75 [&.dock-item--separated::before]:w-px [&.dock-item--separated::before]:h-10.75 [&.dock-item--separated::before]:[background:oklch(0.18_0.018_250/0.22)] [&.dock-item--separated::before]:[box-shadow:1px_0_oklch(1_0_0/0.28)]",
             )}
             aria-label={app.label}
+            onPointerDown={
+              app.id === DockUtilityId.LAUNCHPAD
+                ? (event) => event.stopPropagation()
+                : undefined
+            }
             onClick={() => launch(app.id)}
           >
             <span className='dock-tooltip [&.dock-tooltip]:absolute [&.dock-tooltip]:left-[50%] [&.dock-tooltip]:bottom-[calc(100%+12px)] [&.dock-tooltip]:p-[5px_9px] [&.dock-tooltip]:rounded-lg [&.dock-tooltip]:text-[oklch(0.2_0.01_250)] [&.dock-tooltip]:[background:var(--glass-regular)] [&.dock-tooltip]:[backdrop-filter:blur(26px)_saturate(1.45)] [&.dock-tooltip]:[box-shadow:inset_0_0_0_1px_var(--glass-stroke),0_5px_12px_oklch(0.08_0.03_245/0.2)] [&.dock-tooltip]:opacity-[0] [&.dock-tooltip]:pointer-events-none [&.dock-tooltip]:whitespace-nowrap [&.dock-tooltip]:text-[12px] [&.dock-tooltip]:transform-[translate(-50%,5px)] [&.dock-tooltip]:[transition:opacity_130ms,transform_130ms] [&.dock-tooltip]:[-webkit-backdrop-filter:blur(26px)_saturate(1.45)]'>

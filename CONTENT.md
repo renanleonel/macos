@@ -39,7 +39,7 @@ Change them there and every surface follows: login screen, Apple menu, Settings 
 | `features/notes/domain/constants/today-tasks.ts` | **The visitor guide.** One list, rendered twice: `label` (short) in the Today widget, `detail` (full sentence) in the note. Like a real macOS widget the desktop card shows only the first `TODAY_WIDGET_TASK_LIMIT` rows and defers the rest to the app — it does not scroll, so raising that limit means the rows no longer fit. |
 | `features/notes/domain/constants/notes.ts` | The single note (`NoteId.GUIDE`) that wraps that checklist — title, intro, section heading and closing line. |
 | `features/terminal/domain/constants/terminal-command-output.ts` | Output for the text-only commands: `help`, `skills`, `contact`. Column alignment is done with literal spaces and preserved by `whitespace-pre-wrap` in `terminal-content.tsx` — collapse that and the columns go ragged. |
-| `features/terminal/domain/constants/terminal-command-apps.ts` | Commands that **open a window** instead of printing: `about` → About Me, `experience` and `resume` → Preview, `projects` → Safari. A command listed here must not also appear in the output map. |
+| `features/terminal/domain/constants/terminal-command-apps.ts` | Commands that **open a window** instead of printing: `about` → About Me, `projects` → Safari. A command listed here must not also appear in the output map. |
 | `features/terminal/domain/constants/initial-terminal-lines.ts` | The shell login banner. |
 | `features/terminal/domain/enums/terminal-command.ts` | The command list. A new command needs an enum member plus an entry in **either** the output map (to print) or the app map (to open a window), and a line in `help`. |
 
@@ -47,7 +47,7 @@ Change them there and every surface follows: login screen, Apple menu, Settings 
 
 | File | Contains |
 | --- | --- |
-| `features/finder/domain/constants/finder-sections.ts` | **Every filename in Finder**, grouped by sidebar section. Only user files and folders are lowercase — applications keep their proper names and are built by the `application()` helper from `APPLICATION_REGISTRY`, so Finder cannot disagree with the Dock; the desktop icons in `desktop-files.tsx` and the Apple menu's Recent Items name the same files and must match. Each entry names the app that opens it — `resume.pdf` points at `AppId.PREVIEW`, and entries that open Safari use `FinderEntryKind.DOCUMENT` with `FinderEntryGlyph.WEB` so they read as web locations rather than folders on disk. |
+| `features/finder/domain/constants/finder-sections.ts` | **Every filename in Finder**, grouped by sidebar section. Only user files and folders are lowercase — applications keep their proper names and are built by the `application()` helper from `APPLICATION_REGISTRY`, so Finder cannot disagree with the Dock; the desktop icons in `desktop-files.tsx` and the Apple menu's Recent Items name the same files and must match. Each entry names the app that opens it — entries that open Safari use `FinderEntryKind.DOCUMENT` with `FinderEntryGlyph.WEB` so they read as web locations rather than folders on disk. |
 | `features/finder/domain/constants/finder-favorites.ts` | Which sections appear in the sidebar, and their order. |
 
 Adding a section needs a new `FinderSection` enum member; adding a file to an existing section is a one-line change.
@@ -82,13 +82,11 @@ Adding a section needs a new `FinderSection` enum member; adding a file to an ex
 | Battery percentage (menu bar) | `features/desktop/components/menu-bar.tsx` — `aria-label='Battery, 84 percent'`. |
 | Desktop file labels | `features/desktop/components/desktop-files.tsx` — "screenshots", "read me.txt". Separate strings from the Finder entries; both need changing to stay consistent. |
 | Photos header | `features/photos/components/photos-content.tsx` — "Library", "Interface studies · 8 items". |
-| Preview fallback copy | `features/preview/components/preview-content.tsx` — the message shown when a browser cannot render PDFs inline. |
 
 ---
 
 ## 4. Assets
 
-- **`public/renan-leonel-frontend-software-engineer.pdf`** — the CV, copied verbatim from the source on the Desktop. To update it, replace this file. It is served publicly and is crawlable, so check the source contains nothing you would not publish (it currently carries email, LinkedIn and GitHub, and no phone number). Opens in the Preview app via the `Résumé.pdf` Finder entries.
 - `public/wallpaper-tahoe-day.jpg` — referenced from `src/styles.css` (`.desktop`).
 - **Photos are not images.** `photos-content.tsx` generates coloured gradient tiles from `PHOTO_TITLES`. Real photographs would mean adding files to `public/` and reworking that component.
 - Favicon is an inline SVG data URI in `index.html`.

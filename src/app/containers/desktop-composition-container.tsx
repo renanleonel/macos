@@ -117,7 +117,8 @@ export function DesktopCompositionContainer() {
   const launch = (app: DockId) => {
     setShowDesktop(false);
     if (app === DockUtilityId.LAUNCHPAD) {
-      return setOverlay(overlay === OverlayId.LAUNCHPAD ? null : OverlayId.LAUNCHPAD);
+      if (overlay === OverlayId.LAUNCHPAD) return;
+      return setOverlay(OverlayId.LAUNCHPAD);
     }
     if (app === DockUtilityId.MAIL) return openApp(AppId.MESSAGES);
     if (app === DockUtilityId.TRASH) {

@@ -52,9 +52,6 @@ export function AppleMenu({
           <button type='button' role='menuitem' onClick={() => openApp(AppId.SAFARI)}>
             open source
           </button>
-          <button type='button' role='menuitem' onClick={() => openApp(AppId.PREVIEW)}>
-            resume.pdf
-          </button>
           <button type='button' role='menuitem' onClick={() => openApp(AppId.NOTES)}>
             read me.txt
           </button>

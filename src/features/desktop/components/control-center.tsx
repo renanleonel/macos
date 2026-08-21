@@ -137,7 +137,7 @@ function ControlSlider({ icon, label, ariaLabel, min, value, onChange }: Control
           '[background:oklch(0.46_0.012_250/0.24)] [box-shadow:inset_0_0_0_1px_oklch(1_0_0/0.2),inset_0_1px_3px_oklch(0.18_0.02_250/0.22)]',
           '[.desktop--dark_&]:[background:oklch(1_0_0/0.1)] [.desktop--dark_&]:[box-shadow:inset_0_0_0_1px_oklch(1_0_0/0.12),inset_0_1px_3px_oklch(0_0_0/0.3)]',
           "[&::before]:[content:''] [&::before]:absolute [&::before]:inset-[0_auto_0_0] [&::before]:w-(--value) [&::before]:pointer-events-none",
-          '[&::before]:[background:linear-gradient(180deg,oklch(1_0_0/0.97),oklch(0.95_0.002_250/0.9))] [&::before]:[transition:width_90ms_linear]',
+          '[&::before]:[background:linear-gradient(180deg,oklch(1_0_0/0.97),oklch(0.95_0.002_250/0.9))]',
           '[.desktop--dark_&::before]:[background:linear-gradient(180deg,oklch(0.97_0_0/0.9),oklch(0.87_0.002_250/0.84))]',
           '[&_>_svg]:relative [&_>_svg]:z-[1] [&_>_svg]:flex-none [&_>_svg]:ms-2.25 [&_>_svg]:text-[oklch(0.42_0.01_250)] [&_>_svg]:[mix-blend-mode:luminosity] [&_>_svg]:pointer-events-none',
           '[&_>_input]:absolute [&_>_input]:inset-0 [&_>_input]:z-[2] [&_>_input]:w-full [&_>_input]:h-full [&_>_input]:m-0 [&_>_input]:appearance-none [&_>_input]:[background:transparent] [&_>_input]:cursor-default',

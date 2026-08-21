@@ -13,6 +13,6 @@ export const NOTES: readonly Note[] = [
     updated: 'August 12, 2026 at 9:41 AM',
     intro: `I am ${PROFILE.name}, a ${PROFILE.role.toLowerCase()} based in ${PROFILE.location}. Everything about my work is on this desktop.`,
     sectionTitle: 'Where to find it',
-    closing: `The full CV is resume.pdf in Finder. For anything else, email ${PROFILE.email}.`,
+    closing: `For anything else, email ${PROFILE.email}.`,
   },
 ];

@@ -14,11 +14,6 @@ export const TODAY_TASKS: readonly TodayTask[] = [
     detail: 'Open Safari for my open-source projects and articles.',
   },
   {
-    id: TodayTaskId.RESUME,
-    label: 'Open resume.pdf',
-    detail: 'Open resume.pdf in Finder to read or download my CV.',
-  },
-  {
     id: TodayTaskId.TERMINAL,
     label: 'Type help in Terminal',
     detail: 'Type help in Terminal for about, experience, projects, skills and contact.',

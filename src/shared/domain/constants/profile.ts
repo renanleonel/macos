@@ -11,7 +11,6 @@ export const PROFILE = {
   firstName: 'Renan',
   initial: 'R',
   role: 'Frontend Software Engineer',
-  company: 'TRACTIAN',
   location: 'Maringá, Brazil',
   machineName: "Renan's Mac",
   shellUser: 'renan',
@@ -20,8 +19,6 @@ export const PROFILE = {
   site: 'renanleonel.com',
   siteUrl: 'https://renanleonel.com',
   githubUser: 'renanleonel',
-  resumePath: '/renan-leonel-frontend-software-engineer.pdf',
-  resumeFileName: 'Renan Leonel — Frontend Software Engineer.pdf',
 } as const;
 
 export const PROFILE_LINKS = {

@@ -46,7 +46,7 @@ export function NotificationCenter({ doNotDisturb }: NotificationCenterProps) {
         <div>
           <strong>{PROFILE.site}</strong>
           <small>Now</small>
-          <p>Welcome. Open Safari for my work, or resume.pdf in Finder.</p>
+          <p>Welcome. Open Safari for my work.</p>
         </div>
       </div>
       <div className={cn(`notification${doNotDisturb ? ' is-silenced' : ''}`, notificationClass)}>

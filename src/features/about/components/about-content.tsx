@@ -37,13 +37,6 @@ export function AboutContent() {
           </div>
         ))}
       </dl>
-      <a
-        className='about-resume [&.about-resume]:p-[6px_16px] [&.about-resume]:rounded-[7px] [&.about-resume]:text-[white] [&.about-resume]:[background:var(--system-blue-deep)] [&.about-resume]:text-[12px] [&.about-resume]:font-[650]'
-        href={PROFILE.resumePath}
-        download={PROFILE.resumeFileName}
-      >
-        Download CV
-      </a>
       <footer>
         <a href={PROFILE_LINKS.github} aria-label='GitHub' target='_blank' rel='noreferrer noopener'>
           <Code2 size={18} />

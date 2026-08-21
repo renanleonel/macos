@@ -2,15 +2,13 @@ import { TerminalCommand } from '@/features/terminal/domain/enums/terminal-comma
 import { PROFILE, PROFILE_HANDLES } from '@/shared/domain/constants/profile';
 
 /**
- * Text-only commands. `about`, `experience`, `projects` and `resume` are absent
- * on purpose — they open a window instead, see TERMINAL_COMMAND_APPS.
+ * Text-only commands. `about` and `projects` are absent on purpose — they open
+ * a window instead, see TERMINAL_COMMAND_APPS.
  */
 export const TERMINAL_COMMAND_OUTPUT: Partial<Record<TerminalCommand, string[]>> = {
   [TerminalCommand.HELP]: [
     'about        open About Me',
-    'experience   open my CV',
     'projects     open my open-source work',
-    'resume       open my CV',
     'skills       what I work with',
     'contact      where to reach me',
     'date         current date and time',
